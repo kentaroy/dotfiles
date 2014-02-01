@@ -1,0 +1,78 @@
+snippet     \int
+options     word
+    \int_{${1}}^{${2}}${0}
+
+snippet     \frac
+alias       /
+options     word
+    \frac{${1}}{${2}}${0}
+
+snippet     \hat
+options     word
+    \hat{${1}}${0}
+
+snippet     \sum
+options     word
+    \sum_{${1}}^{${2}}${0}
+
+snippet     \tilde
+options     word
+    \tilde{${1}}${0}
+
+snippet     \dot
+options     word 
+    \dot{${1}}${0}
+
+snippet     \ddot
+options     word 
+    \ddot{${1}}${0}
+
+snippet     \textbf
+options     word
+    \textbf{${1}}${0}
+
+snippet     \textrm
+options     word
+    \textrm{${1}}${0}
+
+snippet     \mathcal
+options     word
+    \mathcal{${1}}${0}
+
+snippet     "
+options     word
+	\`\`${1}''${0}
+
+snippet     '
+options     word
+	\`${1}'${0}
+
+snippet     (
+options     head
+    \left(
+        ${1}
+    \right)${0}
+
+snippet     {
+options     head
+    \left\{
+        ${1}
+    \right\}${0}
+
+snippet     [
+options     head
+    \left[
+        ${1}
+    \right]${0}
+
+snippet     \ref
+	\ref{${1}}${0}
+
+snippet     \cite
+	\cite{${1}}${0}
+
+snippet     minipage
+options     head
+	\begin{minipage}{${1:width}}
+		${2}
+	\end{minipage}${0}

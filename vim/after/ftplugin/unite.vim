@@ -1,0 +1,16 @@
+imap <buffer> <Tab>   <Plug>(unite_select_next_line)
+imap <buffer> <S-Tab> <Plug>(unite_select_previous_line)
+imap <buffer> <C-j>   <Plug>(unite_toggle_auto_preview)
+imap <buffer> ;a      <Plug>(unite_choose_action)
+
+nmap <buffer> <Tab>   <Plug>(unite_loop_cursor_down)
+nmap <buffer> <S-Tab> <Plug>(unite_loop_cursor_up)
+nmap <buffer> <C-j>   <Plug>(unite_toggle_auto_preview)
+nmap <buffer> <C-a>   <Plug>(unite_choose_action)
+
+inoremap <expr><silent><buffer> ;i unite#do_action('insert')
+inoremap <expr><silent><buffer> ;v unite#do_action('vsplit')
+inoremap <expr><silent><buffer> ;s unite#do_action('split')
+inoremap <expr><silent><buffer> ;t unite#do_action('tabdrop')
+inoremap <expr><silent><buffer> ;r unite#do_action('rec/async')
+inoremap <expr><silent><buffer> , unite#do_action('vimshell')

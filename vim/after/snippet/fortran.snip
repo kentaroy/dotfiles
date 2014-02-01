@@ -1,0 +1,38 @@
+snippet write
+options word
+alias w
+	write(*,'(${1})') ${0}
+
+snippet write*
+options word
+alias w*
+	write(*,*) ${0}
+
+snippet module
+options head
+	module ${1:#:name}
+		implicit none
+		private
+		${2}
+	end module $1
+
+snippet subroutine
+options head
+	subroutine ${1:#:name}(${2:#:args})
+		implicit none
+		${3}
+	end subroutine $1
+
+snippet function
+options head
+	${1:#:type} function ${2:#:name}(${3:#:args})
+		implicit none
+		${2}
+	end function $2
+
+snippet program
+options head
+	program ${1:#:name}
+		implicit none
+		${2}
+	end program $1

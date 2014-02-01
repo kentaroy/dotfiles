@@ -1,0 +1,22 @@
+snippet print
+options word
+alias print
+	print(${1})${0}
+
+snippet matplotlib
+options head
+	import matplotlib.pyplot as plt
+	def getax():
+		plt.rcParams['font.size'] = 22
+		plt.rcParams['mathtext.default'] = 'regular'
+		fig = plt.figure(1)
+		ax = fig.add_subplot(111)
+		ax.cla()
+		return ax
+
+
+	${0}
+
+snippet shebang
+options head
+	#!/usr/bin/env python3${0}
