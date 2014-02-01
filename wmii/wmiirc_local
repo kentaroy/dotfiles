@@ -1,0 +1,36 @@
+#!/bin/dash -f
+MODKEY=Mod4
+
+# Colors tuples: "<text> <background> <border>"
+export WMII_NORMCOLORS='#999999 #444444 #555555'
+export WMII_FOCUSCOLORS='#ffffff #998899 #999999'
+
+# default terminal emulator
+export WMII_TERM="mlterm"
+# transparent version
+
+# Status Bar Info
+status() {
+	echo -n label $(date "+%y/%m/%d %H:%M")
+}
+
+# Shortcuts
+wi_events <<'!'
+KeyGroup Running programs
+Key $MODKEY-v       # Open Vim
+    eval wmiir setsid vim -g
+
+Key $MODKEY-Shift-v
+    eval wmiir setsid vim -g -c VimShell
+
+Key $MODKEY-g       # call google-chrome
+    eval wmiir setsid google-chrome &
+!
+
+# Tagging Rules
+wmiir write /rules <<!
+    /MPlayer|VLC|display|gv|wxmacmolplt/ floating=on
+!
+
+# background image
+feh --bg-scale /home/kyamamoto/.wmii/background.png &

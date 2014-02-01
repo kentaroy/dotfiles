@@ -99,7 +99,7 @@ if v:version < 700
     finish
 endif
 " Initialization:"{{{
-let s:neobundle_dir = expand('~/.vim/bundle')
+let s:neobundle_dir = expand('~/.vim_bundle')
 if isdirectory('neobundle.vim')
     set runtimepath+=neobundle.vim
 elseif finddir('neobundle.vim', '.;') != ''
