@@ -121,6 +121,7 @@ NeoBundle     'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix
 NeoBundle     'Shougo/junkfile.vim', {'depends': 'Shougo/unite.vim'}
 NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
+NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc',}
