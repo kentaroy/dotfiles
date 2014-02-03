@@ -20,12 +20,8 @@ set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
 autocmd BufEnter * execute 'lcd '. expand('%:p:h')
-autocmd WinLeave *
-            \     let b:vimrc_pattern = @/
-            \   | let b:vimrc_hlsearch = &hlsearch
-autocmd WinEnter *
-            \     let @/ = get(b:, 'vimrc_pattern', @/)
-            \   | let &l:hlsearch = get(b:, 'vimrc_hlsearch', &l:hlsearch)
+autocmd WinLeave * let b:vimrc_pattern = @/ | let b:vimrc_hlsearch = &hlsearch
+autocmd WinEnter * let @/ = get(b:, 'vimrc_pattern', @/) | let &l:hlsearch = get(b:, 'vimrc_hlsearch', &l:hlsearch)
 autocmd BufNewFile,BufRead *.src setlocal filetype=fortran
 
 " Status line.
@@ -34,8 +30,9 @@ let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
 
 if v:version >= 700
     " Spell checks.
-    set helplang=en,ja spelllang=en_us showtabline=2
+    set helplang=en,ja spelllang=en_us 
     " Tab.
+    set showtabline=2
     function! s:tabpage_label(n)
         let title = gettabvar(a:n, 'title')
         if title !=# ''
@@ -118,7 +115,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
 NeoBundle     'LeafCage/foldCC'
 NeoBundle     'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak',},}
-NeoBundle     'Shougo/junkfile.vim', {'depends': 'Shougo/unite.vim'}
 NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
@@ -144,8 +140,7 @@ NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:tog
 NeoBundle     'tyru/caw.vim', {'depends': 'kana/vim-operator-user',}
 NeoBundleCheck
 filetype plugin indent on
-" alignta"{{{
-" Make this plugin operator.
+" alignta (operator) "{{{
 let g:alignta_default_arguments='<<0 \ '
 function! OpAlignta(motion_wisenes)
     execute line("'[").','.line("']") 'Alignta' input('')
@@ -153,7 +148,7 @@ endfunction
 call operator#user#define('alignta', 'OpAlignta')
 map + <plug>(operator-alignta)
 "}}}    
-" caw.vim "{{{
+" caw.vim (operator) "{{{
 " Make this plugin operator.
 function! OpCawCommentout(motion_wise)
     execute "normal" "`[V`]\<Plug>(caw:i:toggle)"
@@ -164,8 +159,8 @@ map -  <Plug>(operator-caw)
 " eskk.vim "{{{
 let s:bundle = neobundle#get("eskk.vim")
 function! s:bundle.hooks.on_source(bundle)
-    let g:eskk#dictionary = {'path': "~/.vim/eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
-    let g:eskk#large_dictionary = {'path': "~/.vim/eskk/SKK-JISYO.L", 'sorted': 1, 'encoding':'euc-jp',}
+    let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
+    let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding':'euc-jp',}
     let g:eskk#keep_state = 1
 endfunction
 unlet s:bundle
@@ -228,8 +223,6 @@ nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $H
 nnoremap          [unite]g   :<C-u>Unite -no-split -buffer-name=files grep:.::
 nnoremap <silent> [unite]l   :<C-u>Unite -no-split -buffer-name=search change line<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -no-split -buffer-name=outline outline<CR>
-nnoremap          [unite]m   :<C-u>Unite -no-split -buffer-name=files junkfile junkfile/new<CR>
-nnoremap <silent> [unite].   :<C-u>UniteResume -no-split files<CR>
 "}}}
 " vim-operator-replace "{{{
 map gr <Plug>(operator-replace)
@@ -238,7 +231,7 @@ map gr <Plug>(operator-replace)
 let s:bundle = neobundle#get("vim-quickrun")
 function! s:bundle.hooks.on_source(bundle)
     let g:quickrun_config = {
-                \   "_": {"runner": "vimproc", "runner/vimproc/updatetime" : 100,}, 
+                \   "_": {"runner": "vimproc", "runner/vimproc/updatetime" : 1000,}, 
                 \   "python": {"command": "python3", "cmdopt" : "-u", },
                 \   "tex": {"command": "platex", },
                 \}
