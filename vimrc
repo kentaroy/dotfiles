@@ -128,7 +128,9 @@ NeoBundle     'kana/vim-textobj-line', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-entire', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-indent', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-fold', {'depends': 'kana/vim-textobj-user',}
+NeoBundle     'mattn/webapi-vim'
 NeoBundle     'nanotech/jellybeans.vim'
+NeoBundle     'superbrothers/vim-quickrun-markdown-gfm'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
 NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
@@ -136,8 +138,10 @@ NeoBundle     'thinca/vim-textobj-between', {'depends': 'kana/vim-textobj-user',
 NeoBundle     'thinca/vim-visualstar'
 NeoBundle     'tpope/vim-fugitive'
 NeoBundle     'tpope/vim-repeat'
+NeoBundle     'tpope/vim-markdown'
 NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:toggle)'],]},}
 NeoBundle     'tyru/caw.vim', {'depends': 'kana/vim-operator-user',}
+NeoBundle     'tyru/open-browser.vim'
 NeoBundleCheck
 filetype plugin indent on
 " alignta (operator) "{{{
@@ -204,6 +208,9 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction 
 unlet s:bundle
 "}}}
+" openbrowser_open_commands "{{{
+let g:openbrowser_browser_commands = [{'name': 'google-chrome', 'args': ['{browser}', '{uri}']}]
+"}}}
 " unite.vim "{{{
 nnoremap [unite] <Nop>
 nmap x [unite]
@@ -234,6 +241,7 @@ function! s:bundle.hooks.on_source(bundle)
                 \   "_": {"runner": "vimproc", "runner/vimproc/updatetime" : 1000,}, 
                 \   "python": {"command": "python3", "cmdopt" : "-u", },
                 \   "tex": {"command": "platex", },
+                \   "markdown": {'outputter': 'browser', 'type': 'markdown/gfm'},
                 \}
 endfunction
 unlet s:bundle
@@ -263,10 +271,9 @@ nmap S  <Plug>Ysurround$
 " vimshell.vim "{{{
 let s:bundle = neobundle#get("vimshell.vim")
 function! s:bundle.hooks.on_source(bundle)
-    autocmd FileType int-* NeoCompleteLock
     let g:vimshell_split_command = ''
     let g:vimshell_prompt = "% "
-    let g:vimshell_user_prompt = '$HOST .":". fnamemodify(getcwd(), ":~")'
+    let g:vimshell_user_prompt = 'hostname() .":". fnamemodify(getcwd(), ":~")'
     let g:unite_source_vimshell_external_history_path = $HOME . '/.zsh_history'
 endfunction
 unlet s:bundle
