@@ -5,7 +5,7 @@ autocmd!
 language message C
 set ambiwidth=double encoding=utf-8 fileencoding=utf-8
 set showmode showcmd cmdheight=1 laststatus=2
-set autoindent smartindent expandtab smarttab 
+set autoindent smartindent expandtab smarttab
 set tabstop=8 shiftwidth=4 softtabstop=4
 set foldenable foldmethod=marker foldcolumn=0 commentstring=%s foldlevel=999
 let &showbreak = '...'
@@ -19,7 +19,7 @@ set history=250 clipboard& clipboard+=unnamed
 set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
-autocmd BufEnter * execute 'lcd '. expand('%:p:h')
+autocmd BufEnter * execute 'lcd ' . expand('%:p:h')
 autocmd WinLeave * let b:vimrc_pattern = @/ | let b:vimrc_hlsearch = &hlsearch
 autocmd WinEnter * let @/ = get(b:, 'vimrc_pattern', @/) | let &l:hlsearch = get(b:, 'vimrc_hlsearch', &l:hlsearch)
 autocmd BufNewFile,BufRead *.src setlocal filetype=fortran
@@ -30,7 +30,7 @@ let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
 
 if v:version >= 700
     " Spell checks.
-    set helplang=en,ja spelllang=en_us 
+    set helplang=en,ja spelllang=en_us
     " Tab.
     set showtabline=2
     function! s:tabpage_label(n)
@@ -152,9 +152,8 @@ function! OpAlignta(motion_wisenes)
 endfunction
 call operator#user#define('alignta', 'OpAlignta')
 map + <plug>(operator-alignta)
-"}}}    
+"}}}
 " caw.vim (operator) "{{{
-" Make this plugin operator.
 function! OpCawCommentout(motion_wise)
     execute "normal" "`[V`]\<Plug>(caw:i:toggle)"
 endfunction
@@ -165,7 +164,7 @@ map -  <Plug>(operator-caw)
 let s:bundle = neobundle#get("eskk.vim")
 function! s:bundle.hooks.on_source(bundle)
     let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
-    let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding':'euc-jp',}
+    let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp',}
     let g:eskk#keep_state = 1
 endfunction
 unlet s:bundle
@@ -187,7 +186,6 @@ let s:bundle = neobundle#get("neocomplete.vim")
 function! s:bundle.hooks.on_source(bundle)
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#enable_camel_case = 1
     let g:neocomplete#max_list = 12
     let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     let g:neocomplete#sources#dictionary#dictionaries = {'default': '', 'vimshell': $HOME.'/.vim/vimshell/command-history',}
@@ -197,7 +195,7 @@ function! s:bundle.hooks.on_source(bundle)
     endfunction
     inoremap <expr> <TAB>     pumvisible() ? "\<C-n>" : "\<Tab>"
     inoremap <expr> <S-Tab>   pumvisible() ? "\<C-p>" : "\<S-Tab>"
-endfunction 
+endfunction
 unlet s:bundle
 "}}}
 " neosnippet.vim "{{{
@@ -206,10 +204,10 @@ let s:bundle = neobundle#get("neosnippet.vim")
 function! s:bundle.hooks.on_source(bundle)
     imap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "@"
     smap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "@"
-endfunction 
+endfunction
 unlet s:bundle
 "}}}
-" openbrowser_open_commands "{{{
+" open-browser.vim "{{{
 let g:openbrowser_browser_commands = [{'name': 'google-chrome', 'args': ['{browser}', '{uri}']}]
 "}}}
 " unite.vim "{{{
@@ -240,9 +238,9 @@ map gr <Plug>(operator-replace)
 let s:bundle = neobundle#get("vim-quickrun")
 function! s:bundle.hooks.on_source(bundle)
     let g:quickrun_config = {
-                \   "_": {"runner": "vimproc", "runner/vimproc/updatetime" : 1000,}, 
-                \   "python": {"command": "python3", "cmdopt" : "-u", },
-                \   "tex": {"command": "platex", },
+                \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
+                \   "python":   {"command": "python3", "cmdopt" : "-u", },
+                \   "tex":      {"command": "platex", },
                 \   "markdown": {'outputter': 'browser', 'type': 'markdown/gfm'},
                 \}
 endfunction
@@ -257,7 +255,7 @@ function! s:bundle.hooks.on_source(bundle)
     function! g:ref_source_webdict_sites.weblio.filter(output)
         return join(split(a:output, "\n")[50 :], "\n")
     endfunction
-endfunction 
+endfunction
 unlet s:bundle
 function! s:lookup_weblio(word)
     if a:word =~ '\S'
@@ -268,7 +266,6 @@ command! -nargs=1 Weblio :call <SID>lookup_weblio("<args>")
 "}}}
 " vim-surround "{{{
 nmap s  <Plug>Ysurround
-nmap S  <Plug>Ysurround$
 "}}}
 " vimshell.vim "{{{
 let s:bundle = neobundle#get("vimshell.vim")
