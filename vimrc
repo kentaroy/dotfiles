@@ -119,6 +119,7 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
+NeoBundle     'Shougo/junkfile.vim'
 NeoBundle     'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc',}
 NeoBundle     'h1mesuke/vim-alignta'
@@ -230,6 +231,7 @@ nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $H
 nnoremap          [unite]g   :<C-u>Unite -no-split -buffer-name=files grep:.::
 nnoremap <silent> [unite]l   :<C-u>Unite -no-split -buffer-name=search change line<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -no-split -buffer-name=outline outline<CR>
+nnoremap <silent> [unite]m   :<C-u>Unite -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
 "}}}
 " vim-operator-replace "{{{
 map gr <Plug>(operator-replace)
