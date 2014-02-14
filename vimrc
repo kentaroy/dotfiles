@@ -208,6 +208,8 @@ endfunction
 unlet s:bundle
 "}}}
 " open-browser.vim "{{{
+nmap gb <Plug>(openbrowser-smart-search)
+vmap gb <Plug>(openbrowser-smart-search)
 let g:openbrowser_browser_commands = [{'name': 'google-chrome', 'args': ['{browser}', '{uri}']}]
 "}}}
 " unite.vim "{{{
