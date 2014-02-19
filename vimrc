@@ -121,7 +121,8 @@ NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/junkfile.vim'
 NeoBundle     'Shougo/unite.vim'
-NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc',}
+NeoBundle     'Shougo/neomru.vim'
+NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', 'rev': '915e591'}
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
 NeoBundle     'kana/vim-surround'
@@ -226,6 +227,7 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 nnoremap <silent> [unite]x   :<C-u>Unite -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -no-split -buffer-name=files file_rec/async:!<CR>
+nnoremap <expr>   [unite]P ":\<C-u>Unite -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap          [unite]g   :<C-u>Unite -no-split -buffer-name=files grep:.::
@@ -276,6 +278,7 @@ function! s:bundle.hooks.on_source(bundle)
     let g:vimshell_prompt = "% "
     let g:vimshell_user_prompt = 'hostname() .":". fnamemodify(getcwd(), ":~")'
     let g:unite_source_vimshell_external_history_path = $HOME . '/.zsh_history'
+    let g:vimshell_max_command_history = 10000
 endfunction
 unlet s:bundle
 nnoremap , :<C-u>update<CR>:VimShell<CR>
