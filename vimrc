@@ -20,9 +20,6 @@ set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
 autocmd BufEnter * execute 'lcd ' . expand('%:p:h')
-autocmd WinLeave * let b:vimrc_pattern = @/ | let b:vimrc_hlsearch = &hlsearch
-autocmd WinEnter * let @/ = get(b:, 'vimrc_pattern', @/) | let &l:hlsearch = get(b:, 'vimrc_hlsearch', &l:hlsearch)
-autocmd BufNewFile,BufRead *.src setlocal filetype=fortran
 
 " Status line.
 let &statusline = "[%{winnr()}]%f%m%r%h%w\ %="
