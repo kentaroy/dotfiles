@@ -218,8 +218,9 @@ function! s:bundle.hooks.on_source(bundle)
     let g:unite_enable_start_insert = 1
     let g:unite_source_file_mru_time_format = ''
     let g:unite_source_rec_max_cache_files = 0
-    call unite#custom#source('file', 'ignore_pattern', '__pycache__/')
-    call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
+    call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern', 
+                \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/')
+    call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
     call unite#custom#source('change', 'max_candidates', 5)
 endfunction
 nnoremap <silent> [unite]x   :<C-u>Unite -no-split -buffer-name=files buffer file_mru<CR>
@@ -242,6 +243,7 @@ function! s:bundle.hooks.on_source(bundle)
                 \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
                 \   "python":   {"command": "python3", "cmdopt" : "-u", },
                 \   "tex":      {"command": "platex", },
+                \   "bib":      {"command": "bibtex", },
                 \   "markdown": {'outputter': 'browser', 'type': 'markdown/gfm'},
                 \}
 endfunction
