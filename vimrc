@@ -70,7 +70,7 @@ nnoremap * *zz
 nnoremap # #zz
 nmap <Space> <C-w>
 nnoremap <C-w><Space> gt
-nnoremap <silent> g/ :let @/=expand("<cword>")<CR>:set hls<CR>
+" nnoremap <silent> g/ :let @/=expand("<cword>")<CR>:set hls<CR>
 " }}}
 " Appearance: "{{{
 syntax enable
@@ -127,9 +127,8 @@ NeoBundle     'kana/vim-textobj-line', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-entire', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-indent', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-fold', {'depends': 'kana/vim-textobj-user',}
-NeoBundle     'mattn/webapi-vim'
 NeoBundle     'nanotech/jellybeans.vim'
-NeoBundle     'superbrothers/vim-quickrun-markdown-gfm'
+NeoBundle     't9md/vim-quickhl'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
 NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
@@ -140,7 +139,6 @@ NeoBundle     'tpope/vim-repeat'
 NeoBundle     'tpope/vim-markdown'
 NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:toggle)'],]},}
 NeoBundle     'tyru/caw.vim', {'depends': 'kana/vim-operator-user',}
-NeoBundle     'tyru/open-browser.vim'
 NeoBundleCheck
 filetype plugin indent on
 " alignta (operator) "{{{
@@ -205,11 +203,6 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 "}}}
-" open-browser.vim "{{{
-nmap gb <Plug>(openbrowser-smart-search)
-vmap gb <Plug>(openbrowser-smart-search)
-let g:openbrowser_browser_commands = [{'name': 'google-chrome', 'args': ['{browser}', '{uri}']}]
-"}}}
 " unite.vim "{{{
 nnoremap [unite] <Nop>
 nmap x [unite]
@@ -218,6 +211,11 @@ function! s:bundle.hooks.on_source(bundle)
     let g:unite_enable_start_insert = 1
     let g:unite_source_file_mru_time_format = ''
     let g:unite_source_rec_max_cache_files = 0
+    if executable('ag')
+        let g:unite_source_grep_command = 'ag'
+        let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+        let g:unite_source_grep_recursive_opt = ''
+    endif
     call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern', 
                 \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
     call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
@@ -228,7 +226,8 @@ nnoremap <silent> [unite]p   :<C-u>Unite -no-split -buffer-name=files file_rec/a
 nnoremap <expr>   [unite]P ":\<C-u>Unite -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $HOME . "\<CR>"
-nnoremap          [unite]g   :<C-u>Unite -no-split -buffer-name=files grep:.::
+nnoremap <expr>   [unite]g ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::" . expand("<cword>") . "\<CR>"
+nnoremap <expr>   [unite]G ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
 nnoremap <silent> [unite]l   :<C-u>Unite -no-split -buffer-name=search change line<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -no-split -buffer-name=outline outline<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
@@ -281,5 +280,10 @@ function! s:bundle.hooks.on_source(bundle)
 endfunction
 unlet s:bundle
 nnoremap , :<C-u>update<CR>:VimShell<CR>
+nnoremap g, :<C-u>update<CR>:VimShellCreate<CR>
 "}}}
+" vim-quickhl (operator) "{{{
+map gm <Plug>(operator-quickhl-manual-this-motion)
+nmap gM <Plug>(quickhl-manual-reset)
+"}}}    
 "}}}
