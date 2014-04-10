@@ -219,7 +219,7 @@ function! s:bundle.hooks.on_source(bundle)
     let g:unite_source_file_mru_time_format = ''
     let g:unite_source_rec_max_cache_files = 0
     call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern', 
-                \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/')
+                \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
     call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
     call unite#custom#source('change', 'max_candidates', 5)
 endfunction
