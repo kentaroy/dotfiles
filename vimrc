@@ -70,7 +70,6 @@ nnoremap * *zz
 nnoremap # #zz
 nmap <Space> <C-w>
 nnoremap <C-w><Space> gt
-" nnoremap <silent> g/ :let @/=expand("<cword>")<CR>:set hls<CR>
 " }}}
 " Appearance: "{{{
 syntax enable
@@ -134,6 +133,7 @@ NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
 NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'thinca/vim-textobj-between', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'thinca/vim-visualstar'
+NeoBundle     'tshirtman/vim-cython'
 NeoBundle     'tpope/vim-fugitive'
 NeoBundle     'tpope/vim-repeat'
 NeoBundle     'tpope/vim-markdown'
@@ -226,8 +226,8 @@ nnoremap <silent> [unite]p   :<C-u>Unite -no-split -buffer-name=files file_rec/a
 nnoremap <expr>   [unite]P ":\<C-u>Unite -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $HOME . "\<CR>"
-nnoremap <expr>   [unite]g ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::" . expand("<cword>") . "\<CR>"
-nnoremap <expr>   [unite]G ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
+nnoremap <expr>   [unite]g ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
+nnoremap <expr>   [unite]G ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::" . expand("<cword>") . "\<CR>"
 nnoremap <silent> [unite]l   :<C-u>Unite -no-split -buffer-name=search change line<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -no-split -buffer-name=outline outline<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
