@@ -118,7 +118,6 @@ NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/junkfile.vim'
 NeoBundle     'Shougo/unite.vim'
 NeoBundle     'Shougo/neomru.vim'
-" NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', 'rev': '915e591'}
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', }
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
@@ -134,7 +133,7 @@ NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
 NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'thinca/vim-textobj-between', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'thinca/vim-visualstar'
-NeoBundle     'tshirtman/vim-cython'
+NeoBundleLazy 'tshirtman/vim-cython', {'autoload': {'filetypes': ['pyrex'],}}
 NeoBundle     'tpope/vim-fugitive'
 NeoBundle     'tpope/vim-repeat'
 NeoBundle     'tpope/vim-markdown'
