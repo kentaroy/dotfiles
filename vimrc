@@ -118,7 +118,8 @@ NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/junkfile.vim'
 NeoBundle     'Shougo/unite.vim'
 NeoBundle     'Shougo/neomru.vim'
-NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', 'rev': '915e591'}
+" NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', 'rev': '915e591'}
+NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', }
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
 NeoBundle     'kana/vim-surround'
@@ -265,6 +266,7 @@ function! s:lookup_weblio(word)
     endif
 endfunction
 command! -nargs=1 Weblio :call <SID>lookup_weblio("<args>")
+let g:ref_cache_dir = "~/.cache/vim_ref"
 "}}}
 " vim-surround "{{{
 nmap s  <Plug>Ysurround
