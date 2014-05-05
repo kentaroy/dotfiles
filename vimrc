@@ -69,7 +69,8 @@ nnoremap N Nzz
 nnoremap * *zz
 nnoremap # #zz
 nmap <Space> <C-w>
-nnoremap <C-w><Space> gt
+nnoremap <silent> <C-w><Space> gt
+nnoremap <silent> <C-w>N :tabnew<CR>
 " }}}
 " Appearance: "{{{
 syntax enable
@@ -106,6 +107,7 @@ elseif &runtimepath !~ '/neobundle.vim'
 endif
 let g:neobundle#enable_tail_path = 1
 let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
+let g:neobundle#types#git#default_protocol = "ssh"
 call neobundle#rc(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
@@ -119,6 +121,7 @@ NeoBundle     'Shougo/junkfile.vim'
 NeoBundle     'Shougo/unite.vim'
 NeoBundle     'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', }
+NeoBundle     'davidhalter/jedi-vim', {'autoload': {'fyletypes':['python', 'pyrex']}}
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
 NeoBundle     'kana/vim-surround'
@@ -177,6 +180,26 @@ if has('gui_running') || &t_Co==256
     highlight Normal ctermbg=None
 endif
 "}}}
+" jedi-vim "{{{
+let s:bundle = neobundle#get("jedi-vim")
+function! s:bundle.hooks.on_source(bundle)
+    let g:jedi#completions_enabled    = 0
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#show_call_signatures   = 0
+    let g:jedi#use_tabs_not_buffers   = 0
+    let g:jedi#force_py_version       = 3
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+    let g:jedi#goto_definitions_command = '<Plug>(jedi-goto-definitions)'
+    let g:jedi#goto_assignments_command = '<Plug>(jedi-goto-assignments)'
+    let g:jedi#documentation_command    = '<Plug>(jedi-documatation-command)'
+    let g:jedi#usages_command           = '<Plug>(jedi-usages-command)'
+    let g:jedi#rename_command           = '<Plug>(jedi-rename-command)'
+endfunction
+unlet s:bundle
+" }}}
 " neocomplete.vim "{{{
 let s:bundle = neobundle#get("neocomplete.vim")
 function! s:bundle.hooks.on_source(bundle)
@@ -242,8 +265,6 @@ function! s:bundle.hooks.on_source(bundle)
                 \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
                 \   "python":   {"command": "python3", "cmdopt" : "-u", },
                 \   "tex":      {"command": "platex", },
-                \   "bib":      {"command": "bibtex", },
-                \   "markdown": {'outputter': 'browser', 'type': 'markdown/gfm'},
                 \}
 endfunction
 unlet s:bundle
@@ -253,6 +274,7 @@ nmap X <Plug>(colon)write<CR><Plug>(quickrun)
 " vim-ref "{{{
 let s:bundle = neobundle#get('vim-ref')
 function! s:bundle.hooks.on_source(bundle)
+    let g:ref_cache_dir = "~/.cache/vim_ref"
     let g:ref_source_webdict_sites = {'weblio':{'url': 'http://ejje.weblio.jp/content/%s' },}
     function! g:ref_source_webdict_sites.weblio.filter(output)
         return join(split(a:output, "\n")[50 :], "\n")
@@ -265,7 +287,6 @@ function! s:lookup_weblio(word)
     endif
 endfunction
 command! -nargs=1 Weblio :call <SID>lookup_weblio("<args>")
-let g:ref_cache_dir = "~/.cache/vim_ref"
 "}}}
 " vim-surround "{{{
 nmap s  <Plug>Ysurround

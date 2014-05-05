@@ -3,7 +3,7 @@ call unite#custom_default_action('vimshell/history', 'execute')
 let g:vimshell_execute_file_list  =  {}
 call vimshell#set_execute_file('txt,vim,c,h,cpp,hpp,py,tex', 'vim')
 call vimshell#set_execute_file('png,eps,bmp,jpg', 'gexe display')
-call vimshell#set_execute_file('pdf', 'gexe acroread')
+call vimshell#set_execute_file('pdf', 'gexe evince')
 call vimshell#set_execute_file('dvi', 'gexe xdvi')
 call vimshell#set_execute_file('html,xhtml', 'gexe google-chrome')
 call vimshell#set_execute_file('wmv,mp4', 'avplay -loop 0')
