@@ -64,10 +64,8 @@ endif
 noremap : ;
 noremap ; :
 nnoremap Y y$
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
+noremap n nzz
+noremap N Nzz
 nmap <Space> <C-w>
 nnoremap <silent> <C-w><Space> gt
 nnoremap <silent> <C-w>N :tabnew<CR>
@@ -113,15 +111,15 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
 NeoBundle     'LeafCage/foldCC'
 NeoBundle     'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak',},}
+NeoBundle     'Shougo/junkfile.vim'
 NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
+NeoBundle     'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
-NeoBundle     'Shougo/junkfile.vim'
 NeoBundle     'Shougo/unite.vim'
-NeoBundle     'Shougo/neomru.vim'
-NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc', }
-NeoBundle     'davidhalter/jedi-vim', {'autoload': {'fyletypes':['python', 'pyrex']}}
+NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc',}
+NeoBundle     'davidhalter/jedi-vim', {'autoload': {'fyletypes':['python', 'pyrex']},}
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
 NeoBundle     'kana/vim-surround'
@@ -134,12 +132,10 @@ NeoBundle     't9md/vim-quickhl'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
 NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
-NeoBundle     'thinca/vim-textobj-between', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'thinca/vim-visualstar'
 NeoBundleLazy 'tshirtman/vim-cython', {'autoload': {'filetypes': ['pyrex'],}}
 NeoBundle     'tpope/vim-fugitive'
 NeoBundle     'tpope/vim-repeat'
-NeoBundle     'tpope/vim-markdown'
 NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:toggle)'],]},}
 NeoBundle     'tyru/caw.vim', {'depends': 'kana/vim-operator-user',}
 NeoBundleCheck
@@ -239,7 +235,7 @@ function! s:bundle.hooks.on_source(bundle)
         let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
         let g:unite_source_grep_recursive_opt = ''
     endif
-    call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern', 
+    call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
                 \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
     call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
     call unite#custom#source('change', 'max_candidates', 5)
@@ -250,7 +246,6 @@ nnoremap <expr>   [unite]P ":\<C-u>Unite -no-split -buffer-name=files file_rec/a
 nnoremap <silent> [unite]h   :<C-u>Unite -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap <expr>   [unite]g ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
-nnoremap <expr>   [unite]G ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::" . expand("<cword>") . "\<CR>"
 nnoremap <silent> [unite]l   :<C-u>Unite -no-split -buffer-name=search change line<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -no-split -buffer-name=outline outline<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
@@ -304,8 +299,9 @@ unlet s:bundle
 nnoremap , :<C-u>update<CR>:VimShell<CR>
 nnoremap g, :<C-u>update<CR>:VimShellCreate<CR>
 "}}}
-" vim-quickhl (operator) "{{{
-map gm <Plug>(operator-quickhl-manual-this-motion)
-nmap gM <Plug>(quickhl-manual-reset)
-"}}}    
+" vim-visualstar"{{{
+nnoremap <Plug>N N
+map * <Plug>(visualstar-*)<Plug>N
+map # <Plug>(visualstar-#)<Plug>N
+"}}}
 "}}}
