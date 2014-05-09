@@ -27,7 +27,7 @@ let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
 
 if v:version >= 700
     " Spell checks.
-    set helplang=en,ja spelllang=en_us
+    set helplang=en,ja spelllang=en_us,cjk
     " Tab.
     set showtabline=2
     function! s:tabpage_label(n)
@@ -240,15 +240,15 @@ function! s:bundle.hooks.on_source(bundle)
     call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
     call unite#custom#source('change', 'max_candidates', 5)
 endfunction
-nnoremap <silent> [unite]x   :<C-u>Unite -no-split -buffer-name=files buffer file_mru<CR>
-nnoremap <silent> [unite]p   :<C-u>Unite -no-split -buffer-name=files file_rec/async:!<CR>
-nnoremap <expr>   [unite]P ":\<C-u>Unite -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
-nnoremap <silent> [unite]h   :<C-u>Unite -no-split -buffer-name=files file file/new<CR>
-nnoremap <expr>   [unite]H ":\<C-u>Unite -no-split -buffer-name=files file:". $HOME . "\<CR>"
-nnoremap <expr>   [unite]g ":\<C-u>Unite -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
-nnoremap <silent> [unite]l   :<C-u>Unite -no-split -buffer-name=search change line<CR>
-nnoremap <silent> [unite]o   :<C-u>Unite -no-split -buffer-name=outline outline<CR>
-nnoremap <silent> [unite]m   :<C-u>Unite -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
+nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
+nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
+nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
+nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
+nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
+nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
+nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=search change line<CR>
+nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -buffer-name=outline outline<CR>
+nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
 "}}}
 " vim-operator-replace "{{{
 map gr <Plug>(operator-replace)
@@ -300,8 +300,8 @@ nnoremap , :<C-u>update<CR>:VimShell<CR>
 nnoremap g, :<C-u>update<CR>:VimShellCreate<CR>
 "}}}
 " vim-visualstar"{{{
-nnoremap <Plug>N N
-map * <Plug>(visualstar-*)<Plug>N
-map # <Plug>(visualstar-#)<Plug>N
+nnoremap <Plug>(Nzz) Nzz
+map * <Plug>(visualstar-*)<Plug>(Nzz)
+map # <Plug>(visualstar-#)<Plug>(Nzz)
 "}}}
 "}}}
