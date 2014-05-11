@@ -119,7 +119,7 @@ NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc',}
-NeoBundle     'davidhalter/jedi-vim', {'autoload': {'fyletypes':['python', 'pyrex']},}
+NeoBundleLazy 'davidhalter/jedi-vim'
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
 NeoBundle     'kana/vim-surround'
@@ -177,6 +177,9 @@ if has('gui_running') || &t_Co==256
 endif
 "}}}
 " jedi-vim "{{{
+if has('gui_running') 
+    autocmd FileType python,pyrex NeoBundleSource jedi-vim
+endif
 let s:bundle = neobundle#get("jedi-vim")
 function! s:bundle.hooks.on_source(bundle)
     let g:jedi#completions_enabled    = 0
