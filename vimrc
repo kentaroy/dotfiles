@@ -105,8 +105,11 @@ elseif &runtimepath !~ '/neobundle.vim'
 endif
 let g:neobundle#enable_tail_path = 1
 let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
-if has('unix') && system('uname -s')=='Darwin'
-    let g:neobundle#types#git#default_protocol = "https"
+if has('unix') 
+    let s:uname = system('uname -s')
+    if s:uname == 'Darwin'
+        let g:neobundle#types#git#default_protocol = "https"
+    endif
 else
     let g:neobundle#types#git#default_protocol = "ssh"
 endif
