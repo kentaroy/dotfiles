@@ -9,6 +9,7 @@ call vimshell#set_execute_file('html,xhtml', 'gexe google-chrome')
 call vimshell#set_execute_file('wmv,mp4', 'avplay -loop 0')
 call vimshell#set_execute_file('log,inp,trj,dat', 'gexe wxmacmolplt')
 call vimshell#altercmd#define('g', 'git') 
+call vimshell#altercmd#define('pv', 'gexe paraview') 
 call vimshell#altercmd#define('p', 'python3') 
 call vimshell#altercmd#define('m', 'make') 
 
