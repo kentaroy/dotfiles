@@ -52,9 +52,6 @@ if v:version >= 700
         let info .= ' [' . fnamemodify(getcwd(), ":~") . ']'
         let hostname = system('hostname')
         let info .= ' [' . hostname[:len(hostname)-2] . ']'
-        if exists('*fugitive#head')
-            let info .= ' [' . fugitive#head() . ']'
-        endif
         return tabpages . '%=' . info
     endfunction
     set tabline=%!MakeTabLine()
@@ -66,9 +63,9 @@ noremap ; :
 nnoremap Y y$
 noremap n nzz
 noremap N Nzz
-nmap <Space> <C-w>
-nnoremap <silent> <C-w><Space> gt
-nnoremap <silent> <C-w>N :tabnew<CR>
+nnoremap <Space> <C-w>
+nnoremap - gt
+nnoremap _ gT
 " }}}
 " Appearance: "{{{
 syntax enable
@@ -124,7 +121,7 @@ NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/unite.vim'
-NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell'],}, 'depends': 'Shougo/vimproc',}
+NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],}, 'depends': 'Shougo/vimproc',}
 NeoBundleLazy 'davidhalter/jedi-vim'
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
@@ -134,13 +131,11 @@ NeoBundle     'kana/vim-textobj-entire', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-indent', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'kana/vim-textobj-fold', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'nanotech/jellybeans.vim'
-NeoBundle     't9md/vim-quickhl'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
 NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
 NeoBundle     'thinca/vim-visualstar'
 NeoBundleLazy 'tshirtman/vim-cython', {'autoload': {'filetypes': ['pyrex'],}}
-NeoBundle     'tpope/vim-fugitive'
 NeoBundle     'tpope/vim-repeat'
 NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:toggle)'],]},}
 NeoBundle     'tyru/caw.vim', {'depends': 'kana/vim-operator-user',}
@@ -159,7 +154,7 @@ function! OpCawCommentout(motion_wise)
     execute "normal" "`[V`]\<Plug>(caw:i:toggle)"
 endfunction
 call operator#user#define('caw', 'OpCawCommentout')
-map -  <Plug>(operator-caw)
+map #  <Plug>(operator-caw)
 "}}}
 " eskk.vim "{{{
 let s:bundle = neobundle#get("eskk.vim")
@@ -252,7 +247,7 @@ endfunction
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
-nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
+nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
 nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=search change line<CR>
@@ -307,10 +302,10 @@ endfunction
 unlet s:bundle
 nnoremap , :<C-u>update<CR>:VimShell<CR>
 nnoremap g, :<C-u>update<CR>:VimShellCreate<CR>
+nnoremap g< :<C-u>update<CR>:VimShellTab<CR>
 "}}}
 " vim-visualstar"{{{
 nnoremap <Plug>(Nzz) Nzz
 map * <Plug>(visualstar-*)<Plug>(Nzz)
-map # <Plug>(visualstar-#)<Plug>(Nzz)
 "}}}
 "}}}
