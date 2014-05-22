@@ -3,6 +3,7 @@ call textobj#user#plugin('latex', {
             \     '*pattern*': ['\\begin{[^}]\+}.*\n\s*', '\n^\s*\\end{[^}]\+}.*$'],
             \     'select-a': 'ae',
             \     'select-i': 'ie',
+            \     'region-type': 'V',
             \   },
             \  'paren-math': {
             \     '*pattern*': ['\\(', '\\)'],

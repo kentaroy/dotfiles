@@ -8,7 +8,7 @@ set showmode showcmd cmdheight=1 laststatus=2
 set autoindent smartindent expandtab smarttab
 set tabstop=8 shiftwidth=4 softtabstop=4
 set foldenable foldmethod=marker foldcolumn=0 commentstring=%s foldlevel=999
-let &showbreak = '...'
+let &showbreak = '...\ '
 set nohlsearch ignorecase smartcase incsearch wrapscan
 set display=lastline textwidth=0 splitbelow splitright
 set backspace=indent,eol,start shiftround infercase wrap linebreak
@@ -122,7 +122,7 @@ NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
 NeoBundle     'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],}, 'depends': 'Shougo/vimproc',}
-NeoBundleLazy 'davidhalter/jedi-vim'
+NeoBundleLazy 'davidhalter/jedi-vim', {'autoload': {'filetypes': ['python', 'pyrex']}}
 NeoBundle     'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
 NeoBundle     'kana/vim-surround'
@@ -178,9 +178,6 @@ if has('gui_running') || &t_Co==256
 endif
 "}}}
 " jedi-vim "{{{
-if has('gui_running') 
-    autocmd FileType python,pyrex NeoBundleSource jedi-vim
-endif
 let s:bundle = neobundle#get("jedi-vim")
 function! s:bundle.hooks.on_source(bundle)
     let g:jedi#completions_enabled    = 0
@@ -205,7 +202,7 @@ let s:bundle = neobundle#get("neocomplete.vim")
 function! s:bundle.hooks.on_source(bundle)
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#max_list = 12
+    let g:neocomplete#max_list = 3
     let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     let g:neocomplete#sources#dictionary#dictionaries = {'default': '', 'vimshell': $HOME.'/.vim/vimshell/command-history',}
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -232,8 +229,6 @@ nmap x [unite]
 let s:bundle = neobundle#get('unite.vim')
 function! s:bundle.hooks.on_source(bundle)
     let g:unite_enable_start_insert = 1
-    let g:unite_source_file_mru_time_format = ''
-    let g:unite_source_rec_max_cache_files = 0
     if executable('ag')
         let g:unite_source_grep_command = 'ag'
         let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
@@ -242,7 +237,6 @@ function! s:bundle.hooks.on_source(bundle)
     call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
                 \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
     call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
-    call unite#custom#source('change', 'max_candidates', 5)
 endfunction
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
@@ -250,7 +244,8 @@ nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files fi
 nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
-nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=search change line<CR>
+nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=search line<CR>
+nnoremap <silent> [unite]c   :<C-u>Unite -silent -no-split -buffer-name=search change<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -buffer-name=outline outline<CR>
 nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
 "}}}
