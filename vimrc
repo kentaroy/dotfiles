@@ -88,18 +88,12 @@ if v:version < 700
     finish
 endif
 " Initialization:"{{{
-let s:neobundle_dir = expand('~/.vim_bundle')
-if isdirectory('neobundle.vim')
-    set runtimepath+=neobundle.vim
-elseif finddir('neobundle.vim', '.;') != ''
-    execute 'set runtimepath+=' . finddir('neobundle.vim', '.;')
-elseif &runtimepath !~ '/neobundle.vim'
-    if !isdirectory(s:neobundle_dir.'/neobundle.vim')
-        execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git',
-                    \ (exists('$http_proxy') ? 'https' : 'git')) s:neobundle_dir.'/neobundle.vim'
-    endif
-    execute 'set runtimepath+=' . s:neobundle_dir.'/neobundle.vim'
+let s:neobundle_dir = expand('~/.cache/neobundle')
+if !isdirectory(s:neobundle_dir.'/neobundle.vim')
+    execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git',
+                \ (exists('$http_proxy') ? 'https' : 'git')) s:neobundle_dir.'/neobundle.vim'
 endif
+execute 'set runtimepath+=' . s:neobundle_dir.'/neobundle.vim'
 let g:neobundle#enable_tail_path = 1
 let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
 let g:neobundle#types#git#default_protocol = "ssh"
