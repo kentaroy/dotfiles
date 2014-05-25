@@ -3,12 +3,13 @@ set nocompatible
 filetype plugin indent on
 autocmd!
 language message C
+set helplang=en,ja
 set ambiwidth=double encoding=utf-8 fileencoding=utf-8
 set showmode showcmd cmdheight=1 laststatus=2
 set autoindent smartindent expandtab smarttab
 set tabstop=8 shiftwidth=4 softtabstop=4
 set foldenable foldmethod=marker foldcolumn=0 commentstring=%s foldlevel=999
-let &showbreak = '...\ '
+let &showbreak = '|||'
 set nohlsearch ignorecase smartcase incsearch wrapscan
 set display=lastline textwidth=0 splitbelow splitright
 set backspace=indent,eol,start shiftround infercase wrap linebreak
@@ -20,14 +21,14 @@ set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
 autocmd BufEnter * execute 'lcd ' . expand('%:p:h')
-
+if exists('&spell')
+    set spelllang=en_us,cjk
+endif
 " Status line.
 let &statusline = "[%{winnr()}]%f%m%r%h%w\ %="
 let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
-
-if v:version >= 700
-    " Spell checks.
-    set helplang=en,ja spelllang=en_us,cjk
+" Tab line.
+if exists('&showtabline')
     " Tab.
     set showtabline=2
     function! s:tabpage_label(n)
@@ -56,7 +57,6 @@ if v:version >= 700
     endfunction
     set tabline=%!MakeTabLine()
 endif
-
 " Key mappings
 noremap : ;
 noremap ; :
@@ -112,6 +112,7 @@ endif
 call neobundle#rc(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
+" Plugin list:
 NeoBundle     'LeafCage/foldCC'
 NeoBundle     'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak',},}
 NeoBundle     'Shougo/junkfile.vim'
@@ -119,36 +120,29 @@ NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
-NeoBundle     'Shougo/unite-outline', {'depends': 'Shougo/unite.vim'}
+NeoBundle     'Shougo/unite-outline'
 NeoBundle     'Shougo/unite.vim'
-NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],}, 'depends': 'Shougo/vimproc',}
-NeoBundleLazy 'davidhalter/jedi-vim'    " 'autoload' is given explicitly.
-NeoBundle     'h1mesuke/vim-alignta'
-NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'}, 'depends': 'kana/vim-operator-user',}
+NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],},}
+NeoBundleLazy 'davidhalter/jedi-vim'    " 'NeoBundleSource' is given later.
+NeoBundle     'kana/vim-operator-user'
+NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'},}
 NeoBundle     'kana/vim-surround'
-NeoBundle     'kana/vim-textobj-line', {'depends': 'kana/vim-textobj-user',}
-NeoBundle     'kana/vim-textobj-entire', {'depends': 'kana/vim-textobj-user',}
-NeoBundle     'kana/vim-textobj-indent', {'depends': 'kana/vim-textobj-user',}
-NeoBundle     'kana/vim-textobj-fold', {'depends': 'kana/vim-textobj-user',}
+NeoBundle     'kana/vim-textobj-line'
+NeoBundle     'kana/vim-textobj-entire'
+NeoBundle     'kana/vim-textobj-indent'
+NeoBundle     'kana/vim-textobj-fold'
+NeoBundle     'kana/vim-textobj-user'
 NeoBundle     'nanotech/jellybeans.vim'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
-NeoBundle     'thinca/vim-textobj-comment', {'depends': 'kana/vim-textobj-user',}
+NeoBundle     'thinca/vim-textobj-comment'
 NeoBundle     'thinca/vim-visualstar'
 NeoBundleLazy 'tshirtman/vim-cython', {'autoload': {'filetypes': ['pyrex'],}}
 NeoBundle     'tpope/vim-repeat'
 NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:toggle)'],]},}
-NeoBundle     'tyru/caw.vim', {'depends': 'kana/vim-operator-user',}
+NeoBundle     'tyru/caw.vim'
 NeoBundleCheck
 filetype plugin indent on
-" alignta (operator) "{{{
-let g:alignta_default_arguments='<<0 \ '
-function! OpAlignta(motion_wisenes)
-    execute line("'[").','.line("']") 'Alignta' input('')
-endfunction
-call operator#user#define('alignta', 'OpAlignta')
-map + <plug>(operator-alignta)
-"}}}
 " caw.vim (operator) "{{{
 function! OpCawCommentout(motion_wise)
     execute "normal" "`[V`]\<Plug>(caw:i:toggle)"
@@ -261,8 +255,7 @@ function! s:bundle.hooks.on_source(bundle)
     let g:quickrun_config = {
                 \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
                 \   "python":   {"command": "python3", "cmdopt" : "-u", },
-                \   "tex":      {"command": "platex", },
-                \}
+                \   "tex":      {"command": "platex", },}
 endfunction
 unlet s:bundle
 nnoremap <Plug>(colon) :
@@ -294,7 +287,6 @@ function! s:bundle.hooks.on_source(bundle)
     let g:vimshell_split_command = ''
     let g:vimshell_prompt = "% "
     let g:vimshell_user_prompt = 'hostname() .":". fnamemodify(getcwd(), ":~")'
-    let g:unite_source_vimshell_external_history_path = $HOME . '/.zsh_history'
     let g:vimshell_max_command_history = 10000
 endfunction
 unlet s:bundle

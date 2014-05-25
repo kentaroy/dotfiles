@@ -1,3 +1,4 @@
+setl spell
 call textobj#user#plugin('latex', {
             \   'environment': {
             \     '*pattern*': ['\\begin{[^}]\+}.*\n\s*', '\n^\s*\\end{[^}]\+}.*$'],
