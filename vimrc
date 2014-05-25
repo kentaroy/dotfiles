@@ -223,18 +223,15 @@ unlet s:bundle
 " unite.vim "{{{
 nnoremap [unite] <Nop>
 nmap x [unite]
-let s:bundle = neobundle#get('unite.vim')
-function! s:bundle.hooks.on_source(bundle)
-    let g:unite_enable_start_insert = 1
-    if executable('ag')
-        let g:unite_source_grep_command = 'ag'
-        let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-        let g:unite_source_grep_recursive_opt = ''
-    endif
-    call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
-                \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
-    call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
-endfunction
+let g:unite_enable_start_insert = 1
+if executable('ag')
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+    let g:unite_source_grep_recursive_opt = ''
+endif
+call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
+            \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
+call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
