@@ -194,7 +194,7 @@ let s:bundle = neobundle#get("neocomplete.vim")
 function! s:bundle.hooks.on_source(bundle)
     let g:neocomplete#enable_at_startup = 1
     let g:neocomplete#enable_smart_case = 1
-    let g:neocomplete#max_list = 3
+    let g:neocomplete#max_list = 12
     let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
     let g:neocomplete#sources#dictionary#dictionaries = {'default': '', 'vimshell': $HOME.'/.vim/vimshell/command-history',}
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -230,7 +230,7 @@ call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_can
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
-nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file<CR>
+nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
 nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=search line<CR>

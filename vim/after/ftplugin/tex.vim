@@ -1,4 +1,7 @@
-setl spell
+if exists('&spell')
+    setl spell
+    syntax spell toplevel
+endif
 call textobj#user#plugin('latex', {
             \   'environment': {
             \     '*pattern*': ['\\begin{[^}]\+}.*\n\s*', '\n^\s*\\end{[^}]\+}.*$'],
