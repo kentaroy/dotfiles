@@ -115,7 +115,7 @@ NeoBundle     'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
 NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline'
-NeoBundle     'Shougo/unite.vim'
+NeoBundle     'Shougo/unite.vim', {'rev': '584c379'}
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],},}
 NeoBundleLazy 'davidhalter/jedi-vim'    " 'NeoBundleSource' is given later.
 NeoBundle     'kana/vim-operator-user'
@@ -126,6 +126,7 @@ NeoBundle     'kana/vim-textobj-entire'
 NeoBundle     'kana/vim-textobj-indent'
 NeoBundle     'kana/vim-textobj-fold'
 NeoBundle     'kana/vim-textobj-user'
+NeoBundle     'kentaroy/vim-textobj-register'
 NeoBundle     'nanotech/jellybeans.vim'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}

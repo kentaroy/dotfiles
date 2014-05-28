@@ -76,3 +76,11 @@ options     head
 	\begin{minipage}{${1:width}}
 		${2}
 	\end{minipage}${0}
+
+snippet     frame
+options     head
+        \begin{frame}
+                \frametitle{${1:title}}
+                \framesubtitle{${2:#:subtitle}}
+                ${0}
+        \end{frame}
