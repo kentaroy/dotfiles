@@ -99,7 +99,7 @@ let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
 let g:neobundle#types#git#default_protocol = "ssh"
 if has('unix') 
     let s:uname = system('uname -s')
-    if s:uname == 'Darwin'
+    if s:uname == 'Darwin\n'
         let g:neobundle#types#git#default_protocol = "https"
     endif
 endif
