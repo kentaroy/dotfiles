@@ -117,7 +117,6 @@ NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline'
 NeoBundle     'Shougo/unite.vim', {'rev': '584c379'}
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],},}
-NeoBundleLazy 'davidhalter/jedi-vim'    " 'NeoBundleSource' is given later.
 NeoBundle     'kana/vim-operator-user'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'},}
 NeoBundle     'kana/vim-surround'
@@ -166,29 +165,6 @@ if has('gui_running') || &t_Co==256
     highlight Normal ctermbg=None
 endif
 "}}}
-" jedi-vim "{{{
-if has('gui_running') 
-    autocmd FileType python,pyrex NeoBundleSource jedi-vim
-endif
-let s:bundle = neobundle#get("jedi-vim")
-function! s:bundle.hooks.on_source(bundle)
-    let g:jedi#completions_enabled    = 0
-    let g:jedi#auto_vim_configuration = 0
-    let g:jedi#show_call_signatures   = 0
-    let g:jedi#use_tabs_not_buffers   = 0
-    let g:jedi#force_py_version       = 3
-    if !exists('g:neocomplete#force_omni_input_patterns')
-        let g:neocomplete#force_omni_input_patterns = {}
-    endif
-    let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-    let g:jedi#goto_definitions_command = '<Plug>(jedi-goto-definitions)'
-    let g:jedi#goto_assignments_command = '<Plug>(jedi-goto-assignments)'
-    let g:jedi#documentation_command    = '<Plug>(jedi-documatation-command)'
-    let g:jedi#usages_command           = '<Plug>(jedi-usages-command)'
-    let g:jedi#rename_command           = '<Plug>(jedi-rename-command)'
-endfunction
-unlet s:bundle
-" }}}
 " neocomplete.vim "{{{
 let s:bundle = neobundle#get("neocomplete.vim")
 function! s:bundle.hooks.on_source(bundle)
