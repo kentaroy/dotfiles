@@ -79,8 +79,8 @@ options     head
 
 snippet     frame
 options     head
-        \begin{frame}
-                \frametitle{${1:title}}
+        \begin{frame}{${1:title}}%{{{
                 \framesubtitle{${2:#:subtitle}}
                 ${0}
         \end{frame}
+        %}}}

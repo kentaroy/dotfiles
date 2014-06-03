@@ -18,6 +18,9 @@ imap <buffer><expr> ,       getline('.')[col('.')-2] == ' ' ? "\<Esc><C-^>" : ',
 imap <buffer><expr> <Space> getline('.')[col('.')-2] == ' ' ? "\<Plug>(vimshell_history_unite)" : ' '
 imap <buffer>       <C-l>   <Plug>(vimshell_clear)
 nmap <buffer>       0       <Plug>(vimshell_move_head)
+"zsh-like tabcompletion for directory stack.
+let g:vimshell_dir_expr = "\<C-u>dirs\<CR>\<Esc>dk\<C-p>Ccd \<C-v>-"
+imap <buffer><expr> <Tab>   pumvisible() ? "\<C-n>" : getline('.')[col('.')-5:col('.')-2]=='cd -' ? g:vimshell_dir_expr : "\<Plug>(vimshell_command_complete)"
 
 nnoremap <Plug>(colon) :
 nmap <buffer> X <Plug>(colon)call <SID>extract_file()<CR>GA<C-u><C-r>x<CR><Esc>
