@@ -117,6 +117,7 @@ NeoBundleLazy 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/unite-outline'
 NeoBundle     'Shougo/unite.vim', {'rev': '584c379'}
 NeoBundleLazy 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],},}
+NeoBundle     'h1mesuke/vim-alignta'
 NeoBundle     'kana/vim-operator-user'
 NeoBundleLazy 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'},}
 NeoBundle     'kana/vim-surround'
@@ -125,7 +126,6 @@ NeoBundle     'kana/vim-textobj-entire'
 NeoBundle     'kana/vim-textobj-indent'
 NeoBundle     'kana/vim-textobj-fold'
 NeoBundle     'kana/vim-textobj-user'
-NeoBundle     'kentaroy/vim-textobj-register'
 NeoBundle     'nanotech/jellybeans.vim'
 NeoBundleLazy 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
 NeoBundleLazy 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
@@ -137,6 +137,15 @@ NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:tog
 NeoBundle     'tyru/caw.vim'
 NeoBundleCheck
 filetype plugin indent on
+" alignta"{{{
+" Make this plugin operator.
+let g:alignta_default_arguments='<<0 \ '
+function! OpAlignta(motion_wisenes)
+    execute line("'[").','.line("']") 'Alignta' input('')
+endfunction
+call operator#user#define('alignta', 'OpAlignta')
+map + <plug>(operator-alignta)
+"}}}    
 " caw.vim (operator) "{{{
 function! OpCawCommentout(motion_wise)
     execute "normal" "`[V`]\<Plug>(caw:i:toggle)"
@@ -201,7 +210,7 @@ if executable('ag')
     let g:unite_source_grep_recursive_opt = ''
 endif
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
-            \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.so$\|\.pickle\.bz2$')
+            \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
