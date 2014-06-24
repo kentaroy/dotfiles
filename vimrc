@@ -66,6 +66,8 @@ noremap N Nzz
 nnoremap <Space> <C-w>
 nnoremap - gt
 nnoremap _ gT
+nnoremap <expr> h col('.')==1 ? "zc" : "h"
+nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zo" : "l"
 " }}}
 " Appearance: "{{{
 syntax enable
@@ -109,7 +111,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Plugin list:
 NeoBundle     'LeafCage/foldCC'
 NeoBundle     'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak',},}
-NeoBundle     'Shougo/junkfile.vim'
 NeoBundleLazy 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
 NeoBundle     'Shougo/neomru.vim'
 NeoBundleLazy 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
@@ -137,7 +138,7 @@ NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:tog
 NeoBundle     'tyru/caw.vim'
 NeoBundleCheck
 filetype plugin indent on
-" alignta"{{{
+" alignta (operator)"{{{
 " Make this plugin operator.
 let g:alignta_default_arguments='<<0 \ '
 function! OpAlignta(motion_wisenes)
@@ -219,9 +220,7 @@ nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files fi
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
 nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=search line<CR>
-nnoremap <silent> [unite]c   :<C-u>Unite -silent -no-split -buffer-name=search change<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -buffer-name=outline outline<CR>
-nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=junkfile junkfile junkfile/new<CR>
 "}}}
 " vim-operator-replace "{{{
 map gr <Plug>(operator-replace)
@@ -241,6 +240,7 @@ nmap X <Plug>(colon)write<CR><Plug>(quickrun)
 " vim-ref "{{{
 let s:bundle = neobundle#get('vim-ref')
 function! s:bundle.hooks.on_source(bundle)
+    let g:ref_open = "edit"
     let g:ref_cache_dir = "~/.cache/vim_ref"
     let g:ref_source_webdict_sites = {'weblio':{'url': 'http://ejje.weblio.jp/content/%s' },}
     function! g:ref_source_webdict_sites.weblio.filter(output)
@@ -274,5 +274,6 @@ nnoremap g< :<C-u>update<CR>:VimShellTab<CR>
 " vim-visualstar"{{{
 nnoremap <Plug>(Nzz) Nzz
 map * <Plug>(visualstar-*)<Plug>(Nzz)
+map g* <Plug>(visualstar-g*)<Plug>(Nzz)
 "}}}
 "}}}
