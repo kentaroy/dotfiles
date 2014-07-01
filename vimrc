@@ -67,8 +67,9 @@ nmap <Space> <C-w>
 nnoremap <C-w>N :tabnew<CR>
 nnoremap - gt
 nnoremap _ gT
-nnoremap <expr> h col('.')==1 ? "zc" : "h"
-nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zo" : "l"
+nnoremap g; g;zz
+nnoremap <expr> h col('.')==1 ? "zC" : "h"
+nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zO" : "l"
 " }}}
 " Appearance: "{{{
 syntax enable
@@ -97,27 +98,22 @@ execute 'set runtimepath+=' . s:neobundle_dir.'/neobundle.vim'
 let g:neobundle#enable_tail_path = 1
 let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
 let g:neobundle#types#git#default_protocol = "ssh"
-if has('unix') 
-    let s:uname = system('uname -s')
-    if s:uname == 'Darwin\n'
-        let g:neobundle#types#git#default_protocol = "https"
-    endif
-endif
 call neobundle#rc(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
 " PluginList:
 NeoBundle 'LeafCage/foldCC'
 NeoBundle 'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak',},}
-NeoBundle 'Shougo/neocomplete.vim', {'autoload': {'insert': 1},}
+NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/neosnippet.vim', {'autoload': {'insert': 1},}
-NeoBundle 'Shougo/neosnippet-snippets', {'autoload': {'insert': 1},}
-NeoBundle 'Shougo/unite.vim', {'rev': '584c379'}
-NeoBundle 'Shougo/vimshell.vim', {'autoload': {'commands': ['VimShell', 'VimShellCreate', 'VimShellTab'],},}
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimshell.vim'
+NeoBundle 'basyura/vimshell-sls'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-operator-replace', {'autoload': {'mappings': '<Plug>(operator-replace)'},}
+NeoBundle 'kana/vim-operator-replace'
 NeoBundle 'kana/vim-surround'
 NeoBundle 'kana/vim-textobj-line'
 NeoBundle 'kana/vim-textobj-entire'
@@ -125,12 +121,12 @@ NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-textobj-fold'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'thinca/vim-quickrun', {'autoload': {'mappings': '<Plug>(quickrun)'},}
-NeoBundle 'thinca/vim-ref', {'autoload': {'commands': 'Ref'},}
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-textobj-comment'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tyru/eskk.vim', {'autoload': {'mappings': [['i', '<Plug>(eskk:toggle)'],]},}
+NeoBundle 'tyru/eskk.vim'
 NeoBundle 'tyru/caw.vim'
 NeoBundleCheck
 filetype plugin indent on
@@ -190,12 +186,17 @@ nmap x [unite]
 let g:unite_enable_start_insert = 1
 if executable('ag')
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+    let g:unite_source_grep_default_opts =
+                \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+                \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
     let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_rec_async_command =
+                \ 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
             \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
+call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"

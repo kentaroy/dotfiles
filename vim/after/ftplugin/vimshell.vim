@@ -12,6 +12,7 @@ call vimshell#altercmd#define('g', 'git')
 call vimshell#altercmd#define('pv', 'gexe paraview') 
 call vimshell#altercmd#define('p', 'python3') 
 call vimshell#altercmd#define('m', 'make') 
+call vimshell#altercmd#define('ls', 'sls') 
 
 "Key mappings.
 imap <buffer><expr> ,       getline('.')[col('.')-2] == ' ' ? "\<Esc><C-^>" : ','
