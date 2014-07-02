@@ -49,8 +49,7 @@ if exists('&showtabline')
         let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
         let sep = '|'  " separator
         let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
-        let info = ''
-        let info .= ' [' . fnamemodify(getcwd(), ":~") . ']'
+        let info = ' [' . fnamemodify(getcwd(), ":~") . ']'
         let hostname = system('hostname')
         let info .= ' [' . hostname[:len(hostname)-2] . ']'
         return tabpages . '%=' . info
@@ -103,14 +102,14 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
 " PluginList:
 NeoBundle 'LeafCage/foldCC'
-NeoBundle 'Shougo/vimproc', {'build' : {'mac': 'make -f make_mac.mak', 'unix': 'make -f make_unix.mak',},}
+NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make',},}
+NeoBundle 'Shougo/junkfile.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimshell.vim'
-NeoBundle 'basyura/vimshell-sls'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
@@ -165,6 +164,7 @@ endif
 " neocomplete "{{{
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#auto_completion_start_length = 4
 let g:neocomplete#max_list = 12
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplete#sources#dictionary#dictionaries = {'default': '', 'vimshell': $HOME.'/.vim/vimshell/command-history',}
@@ -203,6 +203,7 @@ nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files fi
 nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
+nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=files junkfile junkfile/new<CR>
 "}}}
 " operator-replace "{{{
 map ? <Plug>(operator-replace)
