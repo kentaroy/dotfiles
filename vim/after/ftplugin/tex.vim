@@ -39,6 +39,11 @@ omap aE <Plug>(textobj-latex-environment-a)
 vmap iE <Plug>(textobj-latex-environment-i)
 vmap aE <Plug>(textobj-latex-environment-a)
 
+omap i$ <Plug>(textobj-latex-dollar-math-i)
+omap a$ <Plug>(textobj-latex-dollar-math-a)
+vmap i$ <Plug>(textobj-latex-dollar-math-i)
+vmap a$ <Plug>(textobj-latex-dollar-math-a)
+
 omap iq <Plug>(textobj-latex-quate-i)
 omap aq <Plug>(textobj-latex-quate-a)
 vmap iq <Plug>(textobj-latex-quate-i)
