@@ -176,8 +176,10 @@ endfunction
 "}}}
 " neosnippet "{{{
 let g:neosnippet#snippets_directory = '~/.vim/after/snippet'
-imap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "@"
-smap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "@"
+imap <expr> ; neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : ";"
+smap <expr> ; neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : ";"
+imap <expr> : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : ":"
+smap <expr> : neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : ":"
 "}}}
 " unite "{{{
 nnoremap [unite] <Nop>
@@ -193,16 +195,18 @@ if executable('ag')
 endif
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
             \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
-call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
 call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
+call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
+call unite#custom#source('change', 'max_candidates', 3)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
+nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=line change line<CR>
 nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
 nnoremap          [unite]g  :\<C-u>Unite -silent -no-split -buffer-name=files grep:.::
 nnoremap <expr>   [unite]G ":\<C-u>Unite -silent -no-split -buffer-name=files grep:" . unite#util#path2project_directory(expand("%")) . "::"
-nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=files junkfile junkfile/new<CR>
+nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=files junkfile/new junkfile<CR>
 "}}}
 " operator-replace "{{{
 map ? <Plug>(operator-replace)
