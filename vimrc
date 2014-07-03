@@ -125,8 +125,8 @@ NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-textobj-comment'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tyru/eskk.vim'
 NeoBundle 'tyru/caw.vim'
+NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': ['i','<Plug>(eskk:toggle)'],}}
 NeoBundleCheck
 filetype plugin indent on
 " alignta (operator)"{{{
@@ -144,13 +144,6 @@ endfunction
 call operator#user#define('caw', 'OpCawCommentout')
 map #  <Plug>(operator-caw)
 "}}}
-" eskk "{{{
-let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
-let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp',}
-let g:eskk#keep_state = 1
-imap <C-j> <Plug>(eskk:toggle)
-cmap <C-j> <Plug>(eskk:toggle)
-"}}}
 " foldCC "{{{
 set foldtext=FoldCCtext()
 "}}}
@@ -164,7 +157,7 @@ endif
 " neocomplete "{{{
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#auto_completion_start_length = 4
+let g:neocomplete#auto_completion_start_length = 999
 let g:neocomplete#max_list = 12
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplete#sources#dictionary#dictionaries = {'default': '', 'vimshell': $HOME.'/.vim/vimshell/command-history',}
@@ -196,8 +189,7 @@ if executable('ag')
                 \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
                 \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
     let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_rec_async_command =
-                \ 'ag --follow --nocolor --nogroup --hidden -g ""'
+    let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
             \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
@@ -252,5 +244,17 @@ nnoremap g, :<C-u>update<CR>:VimShellCreate<CR>
 nnoremap <Plug>(Nzz) Nzz
 map * <Plug>(visualstar-*)<Plug>(Nzz)
 map g* <Plug>(visualstar-g*)<Plug>(Nzz)
+"}}}
+" eskk --- Lazy"{{{
+let bundle = neobundle#get('eskk.vim')
+function! bundle.hooks.on_source(bundle)
+    cmap <C-j> <Plug>(eskk:toggle)
+    let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
+    let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp',}
+    let g:eskk#server = {'host': 'localhost', 'port': 55100, 'type': 'notfound'}
+    let g:eskk#keep_state = 1
+endfunction
+unlet bundle
+imap <C-j> <Plug>(eskk:toggle)
 "}}}
 "}}}
