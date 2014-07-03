@@ -101,7 +101,7 @@ call neobundle#rc(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
 " PluginList:
-NeoBundle 'LeafCage/foldCC'
+NeoBundle 'Shougo/foldCC'
 NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make',},}
 NeoBundle 'Shougo/junkfile.vim'
 NeoBundle 'Shougo/neocomplete.vim'
@@ -172,8 +172,14 @@ inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
     return neocomplete#smart_close_popup() . "\<CR>"
 endfunction
-inoremap <expr> <TAB>     pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab>   pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+        \ <SID>check_space_backward() ? "\<TAB>" :
+        \ neocomplete#start_manual_complete()
+function! s:check_space_backward()
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
 "}}}
 " neosnippet "{{{
 let g:neosnippet#snippets_directory = '~/.vim/after/snippet'
@@ -202,7 +208,8 @@ nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files fi
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
-nnoremap <expr>   [unite]g ":\<C-u>Unite -silent -no-split -buffer-name=files grep:". unite#util#path2project_directory(expand("%")) . "::"
+nnoremap          [unite]g  :\<C-u>Unite -silent -no-split -buffer-name=files grep:.::
+nnoremap <expr>   [unite]G ":\<C-u>Unite -silent -no-split -buffer-name=files grep:" . unite#util#path2project_directory(expand("%")) . "::"
 nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=files junkfile junkfile/new<CR>
 "}}}
 " operator-replace "{{{
