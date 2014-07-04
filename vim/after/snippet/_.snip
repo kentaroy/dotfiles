@@ -1,7 +1,7 @@
 snippet     cwd
 options     word
-	`substitute(system('pwd'), '\n', '', '')`
+        `substitute(system('pwd'), '\n', '', '')`
 
 snippet     pr
 options     word
-	`unite#util#path2project_directory(expand('%')) . '/'`
+        `unite#util#path2project_directory(expand('%')) . '/'`

@@ -2,6 +2,13 @@ if exists('&spell')
     setl spell
     syntax spell toplevel
 endif
+
+" pairs
+inoremap <expr><buffer> $ put_jumpable#put('$', '$', '$')
+inoremap <expr><buffer> _ put_jumpable#put('_', '_{', '}')
+inoremap <expr><buffer> ^ put_jumpable#put('^', '^{', '}')
+
+" Text object
 call textobj#user#plugin('latex', {
             \   'environment': {
             \     '*pattern*': ['\\begin{[^}]\+}.*\n\s*', '\n^\s*\\end{[^}]\+}.*$'],
@@ -34,22 +41,22 @@ call textobj#user#plugin('latex', {
             \   },
             \ })
 
-omap iE <Plug>(textobj-latex-environment-i)
-omap aE <Plug>(textobj-latex-environment-a)
-vmap iE <Plug>(textobj-latex-environment-i)
-vmap aE <Plug>(textobj-latex-environment-a)
+omap <buffer> iE <Plug>(textobj-latex-environment-i)
+omap <buffer> aE <Plug>(textobj-latex-environment-a)
+vmap <buffer> iE <Plug>(textobj-latex-environment-i)
+vmap <buffer> aE <Plug>(textobj-latex-environment-a)
 
-omap i$ <Plug>(textobj-latex-dollar-math-i)
-omap a$ <Plug>(textobj-latex-dollar-math-a)
-vmap i$ <Plug>(textobj-latex-dollar-math-i)
-vmap a$ <Plug>(textobj-latex-dollar-math-a)
+omap <buffer> i$ <Plug>(textobj-latex-dollar-math-i)
+omap <buffer> a$ <Plug>(textobj-latex-dollar-math-a)
+vmap <buffer> i$ <Plug>(textobj-latex-dollar-math-i)
+vmap <buffer> a$ <Plug>(textobj-latex-dollar-math-a)
 
-omap iq <Plug>(textobj-latex-quate-i)
-omap aq <Plug>(textobj-latex-quate-a)
-vmap iq <Plug>(textobj-latex-quate-i)
-vmap aq <Plug>(textobj-latex-quate-a)
+omap <buffer> iq <Plug>(textobj-latex-quate-i)
+omap <buffer> aq <Plug>(textobj-latex-quate-a)
+vmap <buffer> iq <Plug>(textobj-latex-quate-i)
+vmap <buffer> aq <Plug>(textobj-latex-quate-a)
 
-omap iQ <Plug>(textobj-latex-double-quate-i)
-omap aQ <Plug>(textobj-latex-double-quate-a)
-vmap iQ <Plug>(textobj-latex-double-quate-i)
-vmap aQ <Plug>(textobj-latex-double-quate-a)
+omap <buffer> iQ <Plug>(textobj-latex-double-quate-i)
+omap <buffer> aQ <Plug>(textobj-latex-double-quate-a)
+vmap <buffer> iQ <Plug>(textobj-latex-double-quate-i)
+vmap <buffer> aQ <Plug>(textobj-latex-double-quate-a)
