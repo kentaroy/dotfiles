@@ -112,7 +112,6 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kana/vim-operator-user'
-NeoBundle 'kana/vim-smartinput'
 NeoBundle 'kana/vim-operator-replace'
 NeoBundle 'kana/vim-surround'
 NeoBundle 'kana/vim-textobj-line'
@@ -137,69 +136,6 @@ function! OpAlignta(motion_wisenes)
 endfunction
 call operator#user#define('alignta', 'OpAlignta')
 map + <plug>(operator-alignta)
-"}}}    
-" smartinput"{{{
-call smartinput#clear_rules()
-"
-call smartinput#map_to_trigger('i', '(', '(', '(')
-call smartinput#define_rule({
-            \ 'at': '(\%#',
-            \ 'char': '(',
-            \ 'input': "\<BS>()<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-call smartinput#define_rule({
-            \ 'at': '(\%#)',
-            \ 'char': '(',
-            \ 'input': "()<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-"
-call smartinput#map_to_trigger('i', '{', '{', '{')
-call smartinput#define_rule({
-            \ 'at': '{\%#',
-            \ 'char': '{',
-            \ 'input': "\<BS>{}<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-call smartinput#define_rule({
-            \ 'at': '{\%#}',
-            \ 'char': '{',
-            \ 'input': "{}<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-"
-call smartinput#map_to_trigger('i', '[', '[', '[')
-call smartinput#define_rule({
-            \ 'at': '[\%#',
-            \ 'char': '[',
-            \ 'input': "\<BS>[]<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-call smartinput#define_rule({
-            \ 'at': '\[\%#\]',
-            \ 'char': '[',
-            \ 'input': "[]<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-"
-call smartinput#map_to_trigger('i', '''', '''', '''')
-call smartinput#define_rule({
-            \ 'at': '''\%#',
-            \ 'char': '''',
-            \ 'input': "\<BS>''<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-call smartinput#define_rule({
-            \ 'at': '''\%#''',
-            \ 'char': '''',
-            \ 'input': "''<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-
-call smartinput#map_to_trigger('i', '"', '"', '"')
-call smartinput#define_rule({
-            \ 'at': '"\%#',
-            \ 'char': '"',
-            \ 'input': "\<BS>\"\"<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
-call smartinput#define_rule({
-            \ 'at': '"\%#"',
-            \ 'char': '"',
-            \ 'input': "\"\"<`0`>\<Left>\<Left>\<Left>\<Left>\<Left>\<Left>",
-            \ })
 "}}}    
 " caw (operator) "{{{
 function! OpCawCommentout(motion_wise)
@@ -240,8 +176,10 @@ endfunction
 "}}}
 " neosnippet "{{{
 let g:neosnippet#snippets_directory = '~/.vim/after/snippet'
-imap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : "@"
-smap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_jump_or_expand)" : "@"
+imap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
+smap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
+imap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
+smap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
 " unite "{{{
 nnoremap [unite] <Nop>
 nmap x [unite]
