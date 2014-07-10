@@ -3,11 +3,6 @@ if exists('&spell')
     syntax spell toplevel
 endif
 
-" pairs
-inoremap <expr><buffer> $ put_jumpable#put('$', '$', '$')
-inoremap <expr><buffer> _ put_jumpable#put('_', '_{', '}')
-inoremap <expr><buffer> ^ put_jumpable#put('^', '^{', '}')
-
 " Text object
 call textobj#user#plugin('latex', {
             \   'environment': {

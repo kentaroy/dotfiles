@@ -250,16 +250,12 @@ map * <Plug>(visualstar-*)<Plug>(Nzz)
 map g* <Plug>(visualstar-g*)<Plug>(Nzz)
 "}}}
 " eskk --- Lazy"{{{
-let bundle = neobundle#get('eskk.vim')
-function! bundle.hooks.on_source(bundle)
-    cmap <C-j> <Plug>(eskk:toggle)
-    let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
-    let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L.utf8", 'sorted': 1, 'encoding': 'utf-8',}
-    let g:eskk#server = {'host': 'localhost', 'port': 55100}
-    let g:eskk#keep_state = 1
-    let g:eskk#start_completion_length = 999
-endfunction
-unlet bundle
+cmap <C-j> <Plug>(eskk:toggle)
+let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
+let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L.utf8", 'sorted': 1, 'encoding': 'utf-8',}
+let g:eskk#server = {'host': 'localhost', 'port': 55100}
+let g:eskk#keep_state = 1
+let g:eskk#start_completion_length = 999
 imap <C-j> <Plug>(eskk:toggle)
 "}}}
 "}}}
