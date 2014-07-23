@@ -127,7 +127,8 @@ NeoBundle 'thinca/vim-textobj-comment'
 NeoBundle 'thinca/vim-visualstar'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tyru/caw.vim'
-NeoBundleLazy 'tyru/eskk.vim', {'autoload': {'mappings': ['i','<Plug>(eskk:toggle)'],}}
+NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'tyru/eskk.vim'
 NeoBundleCheck
 filetype plugin indent on
 " alignta (operator)"{{{
@@ -191,7 +192,7 @@ if executable('ag')
                 \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
                 \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
     let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
+    let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup -g ""'
 endif
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
             \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
@@ -215,7 +216,10 @@ map ? <Plug>(operator-replace)
 let g:quickrun_config = {
             \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
             \   "python":   {"command": "python3", "cmdopt" : "-u", },
-            \   "tex":      {"command": "platex", },}
+            \   "tex":      {"command": "platex", },
+            \   "markdown": {'type': "markdown/pandoc", 'cmdopt': '-s', 'outputter': 'browser'},
+            \ }
+
 nnoremap <Plug>(colon) :
 nmap X <Plug>(colon)write<CR><Plug>(quickrun)
 "}}}
@@ -249,7 +253,7 @@ nnoremap <Plug>(Nzz) Nzz
 map * <Plug>(visualstar-*)<Plug>(Nzz)
 map g* <Plug>(visualstar-g*)<Plug>(Nzz)
 "}}}
-" eskk --- Lazy"{{{
+" eskk "{{{
 cmap <C-j> <Plug>(eskk:toggle)
 let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
 let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L.utf8", 'sorted': 1, 'encoding': 'utf-8',}
