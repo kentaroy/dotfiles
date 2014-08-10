@@ -49,9 +49,8 @@ if exists('&showtabline')
         let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
         let sep = '|'  " separator
         let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
-        let info = ' [' . fnamemodify(getcwd(), ":~") . ']'
         let hostname = system('hostname')
-        let info .= ' [' . hostname[:len(hostname)-2] . ']'
+        let info = ' [' . hostname[:len(hostname)-2] . ':' . fnamemodify(getcwd(), ":~") . ']'
         return tabpages . '%=' . info
     endfunction
     set tabline=%!MakeTabLine()
@@ -68,8 +67,8 @@ nnoremap <C-w>N :tabnew<CR>
 nnoremap - gt
 nnoremap _ gT
 nnoremap g; g;zz
-nnoremap <expr> h col('.')==1 ? "zC" : "h"
-nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zO" : "l"
+nnoremap <expr> h col('.')==1 ? "zc" : "h"
+nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zo" : "l"
 " }}}
 " Appearance: "{{{
 syntax enable
