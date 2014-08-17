@@ -31,7 +31,6 @@ let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
 "}}}
 " Tab line."{{{
 if exists('&showtabline')
-    " Tab.
     set showtabline=2
     function! s:tabpage_label(n)
         let title = gettabvar(a:n, 'title')
@@ -87,8 +86,6 @@ if has('gui_running')
     set guicursor=a:blinkon0 guioptions=Mc mousehide
     if isdirectory('/usr/share/doc/fonts-vlgothic')
         set guifont=VL\ Gothic
-    elseif has('gui_macvim')
-        set transparency=5 lines=90 columns=250 guifont=Osaka-mono:h14
     endif
 endif
 "}}}
@@ -198,7 +195,7 @@ nmap x [unite]
 let g:unite_enable_start_insert = 1
 if executable('ag')
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts ='-i -U --line-numbers --nocolor --nogroup --hidden --ignore ''.git'''
+    let g:unite_source_grep_default_opts ='-i --line-numbers --nocolor --nogroup --hidden --ignore ''.git'''
     let g:unite_source_grep_recursive_opt = ''
     let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
@@ -206,7 +203,6 @@ call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
             \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
 call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'max_candidates', 0)
-call unite#custom#source('change', 'max_candidates', 3)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -no-resize -buffer-name=outline outline<CR>
 nnoremap <expr>   [unite]p ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files file_rec/git:". unite#util#path2project_directory(expand("%")) . "\<CR>"
