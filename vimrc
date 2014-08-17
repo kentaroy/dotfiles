@@ -1,4 +1,5 @@
 " Vim Options: {{{
+" Set options. {{{
 set nocompatible
 filetype plugin indent on
 autocmd!
@@ -20,14 +21,15 @@ set history=250 clipboard& clipboard+=unnamed
 set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
-autocmd BufEnter * execute 'lcd ' . expand('%:p:h')
 if exists('&spell')
     set spelllang=en_us,cjk
 endif
-" Status line.
+"}}}
+" Status line."{{{
 let &statusline = "[%{winnr()}]%f%m%r%h%w\ %="
 let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
-" Tab line.
+"}}}
+" Tab line."{{{
 if exists('&showtabline')
     " Tab.
     set showtabline=2
@@ -55,22 +57,26 @@ if exists('&showtabline')
     endfunction
     set tabline=%!MakeTabLine()
 endif
-" Key mappings
+"}}}
+" Key mappings."{{{
 noremap : ;
 noremap ; :
 nnoremap Y y$
 noremap n nzz
 noremap N Nzz
+nnoremap g; g;zz
 nnoremap zv zMzvzz
 nmap <Space> <C-w>
 nnoremap <C-w>N :tabnew<CR>
 nnoremap - gt
 nnoremap _ gT
-nnoremap g; g;zz
 nnoremap <expr> h col('.')==1 ? "zc" : "h"
 nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zo" : "l"
+inoremap <C-f> <C-x><C-o>
+"}}}
 " }}}
 " Appearance: "{{{
+"{{{
 syntax enable
 set background=dark
 if $TERM == "mlterm" || $TERM == "xterm-256color"
@@ -85,7 +91,8 @@ if has('gui_running')
         set transparency=5 lines=90 columns=250 guifont=Osaka-mono:h14
     endif
 endif
-" }}}
+"}}}
+"}}}
 " Plugings: "{{{
 " Initialization:"{{{
 let s:neobundle_dir = expand('~/.cache/neobundle')
@@ -100,7 +107,7 @@ let g:neobundle#types#git#default_protocol = "ssh"
 call neobundle#rc(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
 "}}}
-" PluginList:
+" PluginList: "{{{
 NeoBundle 'Shougo/foldCC'
 NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make',},}
 NeoBundle 'Shougo/junkfile.vim'
@@ -109,6 +116,7 @@ NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kana/vim-operator-user'
@@ -130,6 +138,7 @@ NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'tyru/eskk.vim'
 NeoBundleCheck
 filetype plugin indent on
+"}}}
 " alignta (operator)"{{{
 let g:alignta_default_arguments='<<0 \ '
 function! OpAlignta(motion_wisenes)
@@ -161,7 +170,7 @@ let g:neocomplete#enable_smart_case = 1
 let g:neocomplete#auto_completion_start_length = 999
 let g:neocomplete#max_list = 12
 let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplete#sources#dictionary#dictionaries = {'default': '', 'vimshell': $HOME.'/.vim/vimshell/command-history',}
+let g:neocomplete#sources#omni#input_patterns = {'python': ''}
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
     return neocomplete#smart_close_popup() . "\<CR>"
@@ -181,32 +190,32 @@ imap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
 smap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
 imap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
 smap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
+"}}}
 " unite "{{{
+autocmd BufEnter * execute 'lcd ' . unite#util#path2project_directory(expand("%"))
 nnoremap [unite] <Nop>
 nmap x [unite]
 let g:unite_enable_start_insert = 1
 if executable('ag')
     let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts =
-                \ '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-                \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+    let g:unite_source_grep_default_opts ='-i -U --line-numbers --nocolor --nogroup --hidden --ignore ''.git'''
     let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup -g ""'
+    let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 call unite#custom#source('file,file_rec,file_rec/async', 'ignore_pattern',
             \ '\.eps$\|\.png$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.so$\|\.pickle\.bz2$')
 call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
-call unite#custom#source('file,file_rec,file_rec/async,file_rec/async', 'max_candidates', 0)
+call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'max_candidates', 0)
 call unite#custom#source('change', 'max_candidates', 3)
-nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -buffer-name=files buffer file_mru<CR>
-nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -buffer-name=line change line<CR>
-nnoremap <silent> [unite]p   :<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:!<CR>
-nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -buffer-name=files file_rec/async:". $HOME . "/Projects\<CR>"
-nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -buffer-name=files file file/new<CR>
-nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -buffer-name=files file:". $HOME . "\<CR>"
-nnoremap          [unite]g  :\<C-u>Unite -silent -no-split -buffer-name=files grep:.::
-nnoremap <expr>   [unite]G ":\<C-u>Unite -silent -no-split -buffer-name=files grep:" . unite#util#path2project_directory(expand("%")) . "::"
-nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -buffer-name=files junkfile/new junkfile<CR>
+nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files buffer file_mru<CR>
+nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -no-resize -buffer-name=outline outline<CR>
+nnoremap <expr>   [unite]p ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files file_rec/git:". unite#util#path2project_directory(expand("%")) . "\<CR>"
+nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files directory:". $HOME . '/Projects' . "\<CR>"
+nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files file file/new<CR>
+nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files file:". $HOME . "\<CR>"
+nnoremap          [unite]g  :\<C-u>Unite -silent -no-split -no-resize -buffer-name=files grep:.::
+nnoremap <expr>   [unite]G ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files grep:" . unite#util#path2project_directory(expand("%")) . "::"
+nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files junkfile/new junkfile<CR>
 "}}}
 " operator-replace "{{{
 map ? <Plug>(operator-replace)
@@ -229,12 +238,11 @@ let g:ref_source_webdict_sites = {'weblio':{'url': 'http://ejje.weblio.jp/conten
 function! g:ref_source_webdict_sites.weblio.filter(output)
     return join(split(a:output, "\n")[50 :], "\n")
 endfunction
-function! s:lookup_weblio(word)
-    if a:word =~ '\S'
-        execute 'Ref webdict weblio ' . a:word . "\<CR>"
-    endif
-endfunction
-command! -nargs=1 Weblio :call <SID>lookup_weblio("<args>")
+nnoremap [ref] m
+nmap m [ref]
+nnoremap [ref]p :Ref pydoc<space>
+nnoremap [ref]w :Ref webdict weblio<space>
+nnoremap [ref]m :Ref man<space>
 "}}}
 " surround "{{{
 nmap s  <Plug>Ysurround
@@ -245,7 +253,7 @@ let g:vimshell_prompt = "% "
 let g:vimshell_user_prompt = 'hostname() .":". fnamemodify(getcwd(), ":~")'
 let g:vimshell_max_command_history = 10000
 nnoremap , :<C-u>update<CR>:VimShell<CR>
-nnoremap g, :<C-u>update<CR>:VimShellCreate<CR>
+nnoremap g, :<C-u>update<CR>:VimShellBufferDir -create<CR>
 "}}}
 " visualstar"{{{
 nnoremap <Plug>(Nzz) Nzz
@@ -256,7 +264,6 @@ map g* <Plug>(visualstar-g*)<Plug>(Nzz)
 cmap <C-j> <Plug>(eskk:toggle)
 let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
 let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L.utf8", 'sorted': 1, 'encoding': 'utf-8',}
-let g:eskk#server = {'host': 'localhost', 'port': 55100}
 let g:eskk#keep_state = 1
 let g:eskk#start_completion_length = 999
 imap <C-j> <Plug>(eskk:toggle)
