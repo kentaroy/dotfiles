@@ -21,6 +21,7 @@ set history=250 clipboard& clipboard+=unnamed
 set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
+autocmd BufEnter * execute 'lcd ' . expand('%:p:h')
 if exists('&spell')
     set spelllang=en_us,cjk
 endif
@@ -189,7 +190,6 @@ imap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
 smap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
 "}}}
 " unite "{{{
-autocmd BufEnter * execute 'lcd ' . unite#util#path2project_directory(expand("%"))
 nnoremap [unite] <Nop>
 nmap x [unite]
 let g:unite_enable_start_insert = 1
@@ -205,7 +205,7 @@ call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'max_candidates', 0)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files buffer file_mru<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -no-resize -buffer-name=outline outline<CR>
-nnoremap <expr>   [unite]p ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files file_rec/git:". unite#util#path2project_directory(expand("%")) . "\<CR>"
+nnoremap <expr>   [unite]p ":\<C-u>" . 'lcd ' . unite#util#path2project_directory(expand("%")) . "<CR>:Unite -silent -no-split -no-resize -buffer-name=files file_rec/git\<CR>"
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files directory:". $HOME . '/Projects' . "\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files file file/new<CR>
 nnoremap <expr>   [unite]H ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files file:". $HOME . "\<CR>"
