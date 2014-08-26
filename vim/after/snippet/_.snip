@@ -1,11 +1,15 @@
-snippet     cwd
+snippet     c
 options     word
         `substitute(system('pwd'), '\n', '', '')`
 
-snippet     pr
+snippet     p
 options     word
         `unite#util#path2project_directory(expand('%')) . '/'`
 
-snippet     img
+snippet     i
 options     word
         ~/Projects/research/image/
+
+snippet     w
+options     word
+        ~/Projects/_work/
