@@ -188,6 +188,11 @@ imap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
 smap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
 imap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
 smap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
+inoremap <expr> ) getline('.')[col('.')-2]=='(' ? ")<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : ')'
+inoremap <expr> } getline('.')[col('.')-2]=='{' ? "}<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '}'
+inoremap <expr> ] getline('.')[col('.')-2]=='[' ? "]<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : ']'
+inoremap <expr> ' getline('.')[col('.')-2]=='''' ? "'<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : "'"
+inoremap <expr> " getline('.')[col('.')-2]=='"' ? "\"<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '"'
 "}}}
 " unite "{{{
 nnoremap [unite] <Nop>

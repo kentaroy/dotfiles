@@ -1,3 +1,27 @@
+snippet     chapter
+options     head
+        \chapter{${1}}%{{{
+        ${0:TARGET}
+        %}}}
+
+snippet     section
+options     head
+        \section{${1}}%{{{
+        ${0:TARGET}
+        %}}}
+
+snippet     subsection
+options     head
+        \subsection{${1}}%{{{
+        ${0:TARGET}
+        %}}}
+
+snippet     subsubsection
+options     head
+        \subsubsection{${1}}%{{{
+        ${0:TARGET}
+        %}}}
+
 snippet     \int
 alias       I
 options     word

@@ -2,6 +2,9 @@ if exists('&spell')
     setl spell
     syntax spell toplevel
 endif
+inoremap <expr><buffer> $ getline('.')[col('.')-2]=='$' ? "$<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '$'
+inoremap <expr><buffer> _ getline('.')[col('.')-2]=='_' ? "\<BS>_{}<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '_'
+inoremap <expr><buffer> ^ getline('.')[col('.')-2]=='^' ? "\<BS>^{}<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '^'
 
 " Text object
 call textobj#user#plugin('latex', {
