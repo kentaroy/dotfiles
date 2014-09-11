@@ -200,20 +200,12 @@ if executable('ag')
     let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 let s:pls = []
-let s:ils = [
-            \ 'png', 'eps', 'xcf', 
-            \ 'pyc', 'pickle', 'vtk', 'git', 
-            \ 'aux', 'pdf', 'dvi', 'toc', 'bbl',
-            \ 'gz', 'bz2', 
-            \ 'a', 'o', 'so', 
-            \]
+let s:ils = ['png', 'eps', 'xcf', 'pyc', 'pickle', 'vtk', 'git', 'aux', 'pdf', 'dvi', 'toc', 'bbl', 'gz', 'bz2', 'a', 'o', 'so', ]
 for suffix in s:ils
     call add(s:pls, '\.'.suffix)
 endfor
 let s:ipattern = join(s:pls, '\|')
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'ignore_pattern', s:ipattern)
-" call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'ignore_pattern',
-"             \ '\.eps$\|\.png$\|\.pdf$\|__pycache__\|\.pickle$\|\.vtk$\|\.pyc$\|\.git/\|\.o$\|\.gz$\|\.so$\|\.bz2$\|\.xcf$')
 call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'max_candidates', 0)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files buffer file_mru<CR>
