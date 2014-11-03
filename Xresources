@@ -6,8 +6,8 @@ XTerm*font:-*-fixed-medium-*-*-*-14-*-*-*-*-*-*-*
 XTerm*geometry:80x30
 XTerm*scrollBar : off
 ! xdvi
-XDvi*background:black
-XDvi*foreground:white
+XDvi*background:gray
+XDvi*foreground:black
 XDvi.shrinkFactor:5
 XDvi.mainTranslations:#override \
         :<Key>k: up(0.100)\n\

@@ -1,9 +1,7 @@
 if exists('&spell')
-    setl spell
+    setlocal spell
     syntax spell toplevel
 endif
-inoremap <expr><buffer> _ getline('.')[col('.')-2]=='_' ? "\<BS>_{}<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '_'
-inoremap <expr><buffer> ^ getline('.')[col('.')-2]=='^' ? "\<BS>^{}<`0`>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>\<LEFT>" : '^'
 
 " Text object
 call textobj#user#plugin('latex', {
