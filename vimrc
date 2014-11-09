@@ -119,13 +119,13 @@ NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
-NeoBundle 'kana/vim-surround'
 NeoBundle 'kana/vim-textobj-line'
 NeoBundle 'kana/vim-textobj-entire'
 NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-textobj-fold'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-textobj-comment'
@@ -200,7 +200,7 @@ if executable('ag')
     let g:unite_source_rec_async_command = 'ag --follow --nocolor --nogroup --hidden -g ""'
 endif
 let s:pls = []
-let s:ils = ['png', 'eps', 'xcf', 'pyc', 'pickle', 'vtk', 'git', 'aux', 'pdf', 'dvi', 'toc', 'bbl', 'gz', 'bz2', 'a', 'o', 'so']
+let s:ils = ['png', 'eps', 'xcf', 'pyc', 'pickle', 'vtk', 'git', 'aux', 'pdf', 'dvi', 'toc', 'bbl', 'gz', 'bz2', 'a', 'o', 'so', 'mp4']
 for suffix in s:ils
     call add(s:pls, '\.'.suffix)
 endfor
@@ -220,7 +220,7 @@ nnoremap <expr>   [unite]G ":\<C-u>Unite -silent -no-split -no-resize -buffer-na
 nnoremap <silent> [unite]m   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files junkfile/new junkfile<CR>
 "}}}
 " operator-replace "{{{
-map ? <Plug>(operator-replace)
+map S <Plug>(operator-replace)
 "}}}
 " quickrun "{{{
 let g:quickrun_config = {
@@ -246,8 +246,10 @@ nnoremap [ref]p :Ref pydoc<space>
 nnoremap [ref]w :Ref webdict weblio<space>
 nnoremap [ref]m :Ref man<space>
 "}}}
-" surround "{{{
-nmap s  <Plug>Ysurround
+" operator-surround "{{{
+map <silent>sa <Plug>(operator-surround-append)
+map <silent>sd <Plug>(operator-surround-delete)
+map <silent>sr <Plug>(operator-surround-replace)
 "}}}
 " vimshell "{{{
 let g:vimshell_split_command = ''
