@@ -1,10 +1,27 @@
 snippet article
-    @ARTICLE{${1:label},
-        author          = "{${2:author}}",
-        journal         = "${3:journal}", 
-        volume          = "${4:volume}",
-        pages           = "${5:pages}",
-        year            = "${6:year}",
-    }
+    @ARTICLE{${1:#:label},
+        author          = "${2:#:author}",
+        journal         = "${3:#:journal}", 
+        volume          = "${4:#:volume}",
+        pages           = "${5:#:pages}",
+        year            = "${6:#:year}",
+    }${0}
 
+snippet incollection
+    @INCOLLECTION{${1:#:label},
+        author          = "${2:#:author}",
+        editor          = "${3:#:editor}",
+        booktitle       = "${4:#:booktitle}", 
+        publisher       = "${5:#:publisher}",
+        year            = "${7:#:year}",
+        address         = "${6:New York}",
+    }${0}
 
+snippet book
+    @BOOK{${1:#:label},
+        author          = "${2:#:author}",
+        title           = "${3:#:title}",
+        publisher       = "${4:#:publisher}",
+        year            = "${5:#:year}",
+        address         = "${6:New York}",
+    }${0}

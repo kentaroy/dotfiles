@@ -98,14 +98,19 @@ if !isdirectory(s:neobundle_dir.'/neobundle.vim')
     execute printf('!git clone %s://github.com/Shougo/neobundle.vim.git',
                 \ (exists('$http_proxy') ? 'https' : 'git')) s:neobundle_dir.'/neobundle.vim'
 endif
-execute 'set runtimepath+=' . s:neobundle_dir.'/neobundle.vim'
+if has('vim_starting')
+    execute 'set runtimepath+=' . s:neobundle_dir.'/neobundle.vim'
+endif
 let g:neobundle#enable_tail_path = 1
 let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
 let g:neobundle#types#git#default_protocol = "ssh"
-call neobundle#rc(s:neobundle_dir)
+" call neobundle#rc(s:neobundle_dir)
+call neobundle#begin(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
+call neobundle#end()
 "}}}
 " PluginList: "{{{
+call neobundle#begin(s:neobundle_dir)
 NeoBundle 'LeafCage/foldCC'
 NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make',},}
 NeoBundle 'Shougo/junkfile.vim'
@@ -115,6 +120,7 @@ NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/tabpagebuffer.vim'
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'kana/vim-operator-user'
@@ -135,6 +141,7 @@ NeoBundle 'tyru/caw.vim'
 NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'tyru/eskk.vim'
 NeoBundleCheck
+call neobundle#end()
 filetype plugin indent on
 "}}}
 " alignta (operator)"{{{
