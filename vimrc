@@ -2,7 +2,9 @@
 " Set options. {{{
 set nocompatible
 filetype plugin indent on
-autocmd!
+augroup vimrc
+    autocmd!
+augroup END
 language message C
 set helplang=en,ja
 set ambiwidth=double encoding=utf-8 fileencoding=utf-8
@@ -20,8 +22,8 @@ set timeout timeoutlen=5000 ttimeoutlen=50
 set history=250 clipboard& clipboard+=unnamed
 set shortmess=aTI       " no greeting messages
 set completeopt=menuone
-autocmd FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
-autocmd BufEnter * execute 'lcd ' . expand('%:p:h')
+autocmd vimrc FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
+autocmd vimrc BufEnter * execute 'lcd ' . expand('%:p:h')
 if exists('&spell')
     set spelllang=en_us,cjk
 endif
@@ -68,6 +70,7 @@ nnoremap g; g;zz
 nnoremap zv zMzvzz
 nmap <Space> <C-w>
 nnoremap <C-w>N :tabnew<CR>
+nnoremap <C-w>C :tabclose<CR>
 nnoremap - gt
 nnoremap _ gT
 nnoremap <expr> h col('.')==1 ? "zc" : "h"
@@ -136,9 +139,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'thinca/vim-textobj-comment'
 NeoBundle 'thinca/vim-visualstar'
-NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tyru/caw.vim'
-NeoBundle 'tyru/open-browser.vim'
 NeoBundle 'tyru/eskk.vim'
 NeoBundleCheck
 call neobundle#end()
@@ -216,7 +217,7 @@ let s:ipattern = join(s:pls, '\|')
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'ignore_pattern', s:ipattern)
 call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'max_candidates', 0)
-nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files buffer file_mru<CR>
+nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files file_mru<CR>
 nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -no-resize -buffer-name=outline outline<CR>
 nnoremap <expr>   [unite]p ":\<C-u>" . 'lcd ' . unite#util#path2project_directory(expand("%")) . "<CR>:Unite -silent -no-split -no-resize -buffer-name=files file_rec/git\<CR>"
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files directory:". $HOME . '/Projects' . "\<CR>"
@@ -233,31 +234,30 @@ map S <Plug>(operator-replace)
 let g:quickrun_config = {
             \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
             \   "python":   {"command": "python3", "cmdopt" : "-u", },
-            \   "tex":      {"command": "platex", },
-            \   "markdown": {'type': "markdown/pandoc", 'cmdopt': '-s', 'outputter': 'browser'},
             \ }
-
 nnoremap <Plug>(colon) :
 nmap X <Plug>(colon)write<CR><Plug>(quickrun)
 "}}}
 " ref "{{{
 let g:ref_open = "edit"
+let g:ref_pydoc_cmd = 'python3 -m pydoc'
 let g:ref_cache_dir = "~/.cache/vim_ref"
-let g:ref_source_webdict_sites = {'weblio':{'url': 'http://ejje.weblio.jp/content/%s' },}
+let g:ref_source_webdict_sites = {'weblio': {'url': 'http://ejje.weblio.jp/content/%s'},}
 function! g:ref_source_webdict_sites.weblio.filter(output)
-    return join(split(a:output, "\n")[50 :], "\n")
+    return join(split(a:output, "\n")[60 :], "\n")
 endfunction
-nnoremap [ref] m
-nmap m [ref]
-nnoremap [ref]p :Ref pydoc<space>
-nnoremap [ref]w :Ref webdict weblio<space>
-nnoremap [ref]m :Ref man<space>
+nnoremap [ref/mark] m
+nmap m [ref/mark]
+nnoremap [ref/mark]w :Ref webdict weblio<space>
+nnoremap [ref/mark]p :Ref pydoc<space>
+nnoremap [ref/mark]m :Ref man<space>
 "}}}
 " operator-surround "{{{
-map <silent>s  <Nop>
-map <silent>sa <Plug>(operator-surround-append)
-map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sr <Plug>(operator-surround-replace)
+nnoremap [sorround] <Nop>
+nmap s [sorround]
+map <silent>[sorround]a <Plug>(operator-surround-append)
+map <silent>[sorround]d <Plug>(operator-surround-delete)
+map <silent>[sorround]r <Plug>(operator-surround-replace)
 "}}}
 " vimshell "{{{
 let g:vimshell_split_command = ''

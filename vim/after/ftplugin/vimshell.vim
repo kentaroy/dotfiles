@@ -8,21 +8,20 @@ call vimshell#set_execute_file('dvi', 'gexe xdvi')
 call vimshell#set_execute_file('html,xhtml', 'gexe google-chrome')
 call vimshell#set_execute_file('wmv,mp4', 'avplay -loop 0')
 call vimshell#set_execute_file('log,inp,trj,dat', 'gexe wxmacmolplt')
-call vimshell#altercmd#define('g', 'git') 
-call vimshell#altercmd#define('pv', 'gexe paraview') 
-call vimshell#altercmd#define('p', 'python3') 
-call vimshell#altercmd#define('m', 'make') 
+call vimshell#altercmd#define('g', 'gexe') 
 call vimshell#altercmd#define('sl', 'ls') 
 
-"Key mappings.
+" Key mappings.
 imap <buffer><expr> ,       getline('.')[col('.')-2] == ' ' ? "\<Esc><C-^>" : ','
 imap <buffer><expr> <Space> getline('.')[col('.')-2] == ' ' ? "\<Plug>(vimshell_history_unite)" : ' '
 imap <buffer>       <C-l>   <Plug>(vimshell_clear)
 nmap <buffer>       0       <Plug>(vimshell_move_head)
-"zsh-like tabcompletion for directory stack.
+
+" zsh-like tabcompletion for directory stack.
 let g:vimshell_dir_expr = "\<C-u>dirs\<CR>\<Esc>dk\<C-p>Ccd \<C-v>-"
 imap <buffer><expr> <Tab>   pumvisible() ? "\<C-n>" : getline('.')[col('.')-5:col('.')-2]=='cd -' ? g:vimshell_dir_expr : "\<Plug>(vimshell_command_complete)"
 
+" Execute selected files by X in normal mode.
 nnoremap <Plug>(colon) :
 nmap <buffer> X <Plug>(colon)call <SID>extract_file()<CR>GA<C-u><C-r>x<CR><Esc>
 function! s:extract_file()
