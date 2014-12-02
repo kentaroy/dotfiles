@@ -10,4 +10,7 @@ nmap <buffer> <S-Tab> <Plug>(unite_loop_cursor_up)
 " Action shortcut.
 inoremap <expr><silent><buffer> E unite#do_action('insert')
 inoremap <expr><silent><buffer> R unite#do_action('rec/async')
+inoremap <expr><silent><buffer> S unite#do_action('split')
+inoremap <expr><silent><buffer> V unite#do_action('vsplit')
+inoremap <expr><silent><buffer> T unite#do_action('tabopen')
 inoremap <expr><silent><buffer> , unite#do_action('vimshell')

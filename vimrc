@@ -1,13 +1,12 @@
 " Vim Options: {{{
-" Set options. {{{
-set nocompatible
+" 'set' options. {{{
 filetype plugin indent on
 augroup vimrc
     autocmd!
 augroup END
 language message C
-set helplang=en,ja
-set ambiwidth=double encoding=utf-8 fileencoding=utf-8
+set helplang=en,ja spelllang=en_us,cjk
+set ambiwidth=double encoding=utf-8 fileencoding=utf-8 
 set showmode showcmd cmdheight=1 laststatus=2
 set autoindent smartindent expandtab smarttab
 set tabstop=8 shiftwidth=4 softtabstop=4
@@ -15,7 +14,7 @@ set foldenable foldmethod=marker foldcolumn=0 commentstring=%s foldlevel=999
 let &showbreak = '> '
 set nohlsearch ignorecase smartcase incsearch wrapscan
 set display=lastline textwidth=0 splitbelow splitright
-set backspace=indent,eol,start shiftround infercase wrap linebreak
+set backspace=indent,eol,start shiftround infercase wrap
 set showmatch matchpairs& matchpairs+=<:>
 set hidden autoread noswapfile nobackup nowritebackup
 set timeout timeoutlen=5000 ttimeoutlen=50
@@ -24,41 +23,36 @@ set shortmess=aTI       " no greeting messages
 set completeopt=menuone
 autocmd vimrc FileType * setlocal formatoptions-=ro "avoid auto comment mark insertinon
 autocmd vimrc BufEnter * execute 'lcd ' . expand('%:p:h')
-if exists('&spell')
-    set spelllang=en_us,cjk
-endif
 "}}}
 " Status line."{{{
 let &statusline = "[%{winnr()}]%f%m%r%h%w\ %="
 let &statusline .= "[%l/%L]\ [%{&ff}]\ [%Y]\ [%{&fenc!=''?&fenc:&enc}]"
 "}}}
 " Tab line."{{{
-if exists('&showtabline')
-    set showtabline=2
-    function! s:tabpage_label(n)
-        let title = gettabvar(a:n, 'title')
-        if title !=# ''
-            return title
-        endif
-        let bufnrs = tabpagebuflist(a:n)
-        let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
-        let no = a:n
-        let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]
-        let fname = pathshorten(bufname(curbufnr))
-        let fname = substitute(fname, '.*\/', '', '')
-        let label = '[' . no . ']'. fname
-        return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
-    endfunction
-    function! MakeTabLine()
-        let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
-        let sep = '|'  " separator
-        let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
-        let hostname = system('hostname')
-        let info = ' [' . hostname[:len(hostname)-2] . ':' . fnamemodify(getcwd(), ":~") . ']'
-        return tabpages . '%=' . info
-    endfunction
-    set tabline=%!MakeTabLine()
-endif
+set showtabline=2
+function! s:tabpage_label(n)
+    let title = gettabvar(a:n, 'title')
+    if title !=# ''
+        return title
+    endif
+    let bufnrs = tabpagebuflist(a:n)
+    let hi = a:n is tabpagenr() ? '%#TabLineSel#' : '%#TabLine#'
+    let no = a:n
+    let curbufnr = bufnrs[tabpagewinnr(a:n) - 1]
+    let fname = pathshorten(bufname(curbufnr))
+    let fname = substitute(fname, '.*\/', '', '')
+    let label = '[' . no . ']'. fname
+    return '%' . a:n . 'T' . hi . label . '%T%#TabLineFill#'
+endfunction
+function! MakeTabLine()
+    let titles = map(range(1, tabpagenr('$')), 's:tabpage_label(v:val)')
+    let sep = '|'  " separator
+    let tabpages = join(titles, sep) . sep . '%#TabLineFill#%T'
+    let hostname = system('hostname')
+    let info = ' [' . hostname[:len(hostname)-2] . ':' . fnamemodify(getcwd(), ":~") . ']'
+    return tabpages . '%=' . info
+endfunction
+set tabline=%!MakeTabLine()
 "}}}
 " Key mappings."{{{
 noremap : ;
@@ -80,7 +74,6 @@ inoremap <C-f> <C-x><C-o>
 " }}}
 " Appearance: "{{{
 "{{{
-syntax enable
 set background=dark
 if $TERM == "mlterm" || $TERM == "xterm-256color"
     set t_Co=256
@@ -92,6 +85,7 @@ if has('gui_running')
         set guifont=VL\ Gothic
     endif
 endif
+syntax enable
 "}}}
 "}}}
 " Plugings: "{{{
@@ -107,7 +101,6 @@ endif
 let g:neobundle#enable_tail_path = 1
 let g:neobundle#default_options = { 'default' : { 'overwrite' : 0 }, }
 let g:neobundle#types#git#default_protocol = "ssh"
-" call neobundle#rc(s:neobundle_dir)
 call neobundle#begin(s:neobundle_dir)
 NeoBundleFetch 'Shougo/neobundle.vim'
 call neobundle#end()
@@ -115,23 +108,21 @@ call neobundle#end()
 " PluginList: "{{{
 call neobundle#begin(s:neobundle_dir)
 NeoBundle 'LeafCage/foldCC'
-NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make',},}
 NeoBundle 'Shougo/junkfile.vim'
-NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/tabpagebuffer.vim'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/vimproc', {'build' : {'unix': 'make',},}
 NeoBundle 'Shougo/vimshell.vim'
 NeoBundle 'h1mesuke/vim-alignta'
-NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-operator-replace'
-NeoBundle 'kana/vim-textobj-line'
+NeoBundle 'kana/vim-operator-user'
 NeoBundle 'kana/vim-textobj-entire'
-NeoBundle 'kana/vim-textobj-indent'
 NeoBundle 'kana/vim-textobj-fold'
+NeoBundle 'kana/vim-textobj-indent'
+NeoBundle 'kana/vim-textobj-line'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'rhysd/vim-operator-surround'
@@ -170,32 +161,10 @@ if has('gui_running') || &t_Co==256
     highlight Normal ctermbg=None
 endif
 "}}}
-" neocomplete "{{{
-let g:neocomplete#enable_at_startup = 1
-let g:neocomplete#enable_smart_case = 1
-let g:neocomplete#auto_completion_start_length = 999
-let g:neocomplete#max_list = 12
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-let g:neocomplete#sources#omni#input_patterns = {'python': ''}
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return neocomplete#smart_close_popup() . "\<CR>"
-endfunction
-inoremap <expr> <S-Tab>   pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-        \ <SID>check_space_backward() ? "\<TAB>" :
-        \ neocomplete#start_manual_complete()
-function! s:check_space_backward()
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-"}}}
 " neosnippet "{{{
 let g:neosnippet#snippets_directory = '~/.vim/after/snippet'
-imap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
-smap <expr> @ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" : "@"
-imap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
-smap <expr> X neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" : "X"
+imap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "@"
+smap <expr> @ neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "@"
 "}}}
 " unite "{{{
 nnoremap [unite] <Nop>
@@ -218,7 +187,7 @@ call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'ignore_pa
 call unite#custom#profile('default', 'context', { 'prompt_direction': 'top'})
 call unite#custom#source('file,file_rec,file_rec/async,file_rec/git', 'max_candidates', 0)
 nnoremap <silent> [unite]x   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files file_mru<CR>
-nnoremap <silent> [unite]o   :<C-u>Unite -silent -no-split -no-resize -buffer-name=outline outline<CR>
+nnoremap <silent> [unite]l   :<C-u>Unite -silent -no-split -no-resize -buffer-name=lines line<CR>
 nnoremap <expr>   [unite]p ":\<C-u>" . 'lcd ' . unite#util#path2project_directory(expand("%")) . "<CR>:Unite -silent -no-split -no-resize -buffer-name=files file_rec/git\<CR>"
 nnoremap <expr>   [unite]P ":\<C-u>Unite -silent -no-split -no-resize -buffer-name=files directory:". $HOME . '/Projects' . "\<CR>"
 nnoremap <silent> [unite]h   :<C-u>Unite -silent -no-split -no-resize -buffer-name=files file file/new<CR>
@@ -232,8 +201,9 @@ map S <Plug>(operator-replace)
 "}}}
 " quickrun "{{{
 let g:quickrun_config = {
-            \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 250,},
-            \   "python":   {"command": "python3", "cmdopt" : "-u", },
+            \   "_":        {"runner": "vimproc", "runner/vimproc/updatetime" : 500,},
+            \   "python":   {"command": "python3", "cmdopt" : "-u",},
+            \   "tex":      {"command": "make",},
             \ }
 nnoremap <Plug>(colon) :
 nmap X <Plug>(colon)write<CR><Plug>(quickrun)
@@ -274,10 +244,9 @@ map g* <Plug>(visualstar-g*)<Plug>(Nzz)
 "}}}
 " eskk "{{{
 cmap <C-j> <Plug>(eskk:toggle)
+imap <C-j> <Plug>(eskk:toggle)
 let g:eskk#dictionary = {'path': "~/.eskk/skk-jisyo", 'sorted': 0, 'encoding': 'utf-8',}
 let g:eskk#large_dictionary = {'path': "~/.eskk/SKK-JISYO.L.utf8", 'sorted': 1, 'encoding': 'utf-8',}
 let g:eskk#keep_state = 1
-let g:eskk#start_completion_length = 999
-imap <C-j> <Plug>(eskk:toggle)
 "}}}
 "}}}
