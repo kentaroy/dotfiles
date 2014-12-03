@@ -70,8 +70,10 @@ nnoremap _ gT
 nnoremap <expr> h col('.')==1 ? "zc" : "h"
 nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zo" : "l"
 inoremap <C-f> <C-x><C-o>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 "}}}
-" }}}
+"}}}
 " Appearance: "{{{
 "{{{
 set background=dark
@@ -234,7 +236,7 @@ let g:vimshell_split_command = ''
 let g:vimshell_prompt = "% "
 let g:vimshell_user_prompt = 'hostname() .":". fnamemodify(getcwd(), ":~")'
 let g:vimshell_max_command_history = 10000
-nnoremap , :<C-u>update<CR>:VimShell<CR>
+nnoremap ,  :<C-u>update<CR>:VimShell<CR>
 nnoremap g, :<C-u>update<CR>:VimShellBufferDir -create<CR>
 "}}}
 " visualstar"{{{
