@@ -70,8 +70,8 @@ nnoremap _ gT
 nnoremap <expr> h col('.')==1 ? "zc" : "h"
 nnoremap <expr> l foldclosed(line('.'))!=-1 ? "zo" : "l"
 inoremap <C-f> <C-x><C-o>
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <Tab> col('.')!=1 && getline('.')[col('.')-2]!=' ' ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> col('.')!=1 && getline('.')[col('.')-2]!=' ' ? "\<C-p>" : "\<S-Tab>"
 "}}}
 "}}}
 " Appearance: "{{{
@@ -225,8 +225,8 @@ nnoremap [ref/mark]p :Ref pydoc<space>
 nnoremap [ref/mark]m :Ref man<space>
 "}}}
 " operator-surround "{{{
-nnoremap [sorround] <Nop>
-nmap s [sorround]
+noremap [sorround] <Nop>
+map s [sorround]
 map <silent>[sorround]a <Plug>(operator-surround-append)
 map <silent>[sorround]d <Plug>(operator-surround-delete)
 map <silent>[sorround]r <Plug>(operator-surround-replace)
